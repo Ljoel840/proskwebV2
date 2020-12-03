@@ -2,20 +2,20 @@
 	<div class="seccion">
 		<div class="contenedor">
 			<span>
-				<input type="text" class="buscar" :placeholder="'Buscar por '+`${opcion==0 ? 'Categoria': 'Prosker'}`" v-model="busqueda">
+				<input type="text" class="buscar" :placeholder="'Buscar por '+`${opcion==0 ? 'Categoria': 'Prosker'}`" v-model="busqueda" @keypress="mostrar=true">
 				<i class="material-icons">search</i>
 			</span>
 			<span>
 				<label for="uno">
-					<input type="radio" name="opcion" value="0" v-model="opcion" :checked="opcion==0 ? true : false" @change="cambiarLista(0)">
+					<input type="radio" name="opcion" value="0" v-model="opcion" :checked="opcion==0 ? true : false" @change="cambiarLista(0)" >
 					Categoría
 				</label>
 				<label for="Dos">
-					<input type="radio" name="opcion" value="1" v-model="opcion"  @change="cambiarLista(1)">
+					<input type="radio" name="opcion" value="1" v-model="opcion"  @change="cambiarLista(1)" @keypress="mostrar=true">
 					Prosker
 				</label>
 			</span>
-			<div class="contenedorLista" v-if="!proskers.cargando && listaFiltrada.length>0">
+			<div class="contenedorLista" v-if="!proskers.cargando && listaFiltrada.length>0 && mostrar">
 				<ul>
 					<li v-for="(p,index) in listaFiltrada" :key="index" @click="seleccion(p)">
 						{{p.nombre.toLowerCase()}}
@@ -31,7 +31,8 @@ export default {
 	data() {
 		return {
 			opcion: 0,
-			busqueda: ""
+			busqueda: "",
+			mostrar: true
 		}
 	},
 	created() {
@@ -91,19 +92,13 @@ export default {
 		
 		},
 		seleccion(opc){
+			this.mostrar=false
 			this.busqueda=opc.nombre.toLowerCase()
 			if (this.opcion===0) {
-				this.ir('Mostrar Categorias', opc)
+				this.$emit('opcion',{tipo:'Categorias',datos:opc})
 			}else{
-				this.ir('Prosker', opc.idEnc)
+				this.$emit('opcion',{tipo:'Proskers',datos:opc})
 			}
-		},
-		ir (pag,data) {
-			// e.preventDefault()
-			this.$router.push({
-				name: pag, 
-				params: {data}
-			}).catch(() => {})
 		},
 	},
 }

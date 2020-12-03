@@ -2,7 +2,7 @@
 	<article class="home">
 		<!-- <img alt="imagen Home" src="@/assets/img/homeprosk.jpg"> -->
 		<div class="fondo">
-			<buscar/>
+			<buscar @opcion="seleccion($event)"/>
 		</div>
 		<publicaciones />
 		<categorias />
@@ -20,10 +20,27 @@ export default {
 
   },
   data() {
-	  return {
-		  
-	  }
+		return {
+			
+		}
   },
+  methods: {
+		seleccion(opc){
+			if (opc.tipo==='Categorias') {
+				this.ir("Mostrar Categorias",opc.datos)
+			}else{
+				this.ir("Prosker",opc.datos)
+
+			}
+		},
+		ir(pag,data){
+			this.$router.push({
+				name: pag, 
+				params: {data}
+			}).catch(() => {})
+		}
+  },
+
 }
 </script>
 <style scoped>

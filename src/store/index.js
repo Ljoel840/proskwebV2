@@ -25,7 +25,14 @@ export default new Vuex.Store({
 			datos:[],
 			error: null,
 			cargando: true
-		}
+		},
+		busqueda:{
+			datos: [],
+			idFin: null,
+			error: null,
+			cargando: true,
+			hayMas: true
+		},		
 	},
 	mutations: {
 		cambiarAncho (state) {
@@ -76,8 +83,32 @@ export default new Vuex.Store({
 				state.publicaciones.error = error
 			})
 		},
+		cargarBusqueda(state,contenido){
+			state.busqueda.cargando = true
 
+			if(state.busqueda.datos.map(e=>e.idEnc).indexOf(contenido.frontProsker[0].idEnc)<0){
+				contenido.frontProsker.forEach(element => {
+					state.busqueda.datos.push(element)
+				});
+			}else{
+				state.busqueda.hayMas = false
+			}
+			if (state.busqueda.idFin === contenido.finEnc) {
+				state.busqueda.hayMas = false
+			}
+			if (contenido.frontProsker.length<20) {
+				state.busqueda.hayMas = false
+			}
+			state.busqueda.idFin = contenido.finEnc
+			state.busqueda.cargando = false
+		},
 
+		limpiarBusqueda(state){
+			state.busqueda.datos = []
+			state.busqueda.hayMas = true
+			state.busqueda.idFin = ""
+			state.busqueda.cargando = false
+		}
 
 
 	},

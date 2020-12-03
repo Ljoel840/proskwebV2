@@ -2,7 +2,7 @@
 <template>
   <swiper class="swiper" :options="swiperOption" >
     <swiper-slide v-for="(d,index) in datos" :key="index">
-		<div class="dcategorias">
+		<div class="dcategorias" @click="ir('Mostrar Categorias',d)">
 			<img class="imagen" :src="d.icon" alt="imagenes categorias">
 			<span>
 				<a href="#" class="categorias">
@@ -59,7 +59,16 @@ export default {
 				// }
 			}
 		}
-	}
+	},
+	methods: {
+		ir (pag,data) {
+			// e.preventDefault()
+			this.$router.push({
+				name: pag, 
+				params: {data}
+			}).catch(() => {})
+		},
+	},
 }
 </script>
 
@@ -81,6 +90,7 @@ export default {
 	display: grid;
 	grid-template-rows: auto;
 	justify-items: center;
+	cursor: pointer;
 
 }
 
