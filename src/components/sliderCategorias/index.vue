@@ -4,16 +4,11 @@
     <swiper-slide v-for="(d,index) in datos" :key="index">
 		<div class="dcategorias" @click="ir('Mostrar Categorias',d)">
 			<img class="imagen" :src="d.icon" alt="imagenes categorias">
-			<span>
-				<a href="#" class="categorias">
-					{{d.nombre.toLowerCase()}}
-				</a>
-			</span>	
+			<span class="tooltiptext">{{d.nombre | capitalize}}</span>
 		</div>
 	</swiper-slide>
-    
-    <div class="swiper-pagination" slot="pagination"></div>
 	<div class="swiper-button-prev" slot="button-prev"></div>
+    <div class="swiper-pagination" slot="pagination"></div>
     <div class="swiper-button-next" slot="button-next"></div>
   </swiper>
 </template>
@@ -33,30 +28,63 @@ export default {
 		datos:{
 			type: Array,
 		},
+		totalSlides:{
+			type: Number,
+			default: 14
+		}
 	},
 	data() {
 		return {
-			swiperOption: {
-				slidesPerView: 8,
-				spaceBetween: 10,
+			// swiperOption: {
+			// 	slidesPerView: this.totalSlides,
+			// 	spaceBetween: 1,
+			// 	freeMode: true,
+			// 	// slidesPerGroup: 5, 
+			// 	// centeredSlides: true,
+			// 	slideToClickedSlide: true,
+			// 	// loop: true,
+			// 	loopFillGroupWithBlank: true,
+			// 	// autoplay: {
+			// 	// 	stopOnLastSlide: true,
+			// 	// 	delay: 1500
+			// 	// 	},
+			// 	navigation: {
+			// 		nextEl: '.swiper-button-next',
+			// 		prevEl: '.swiper-button-prev'
+			// 	},
+			// 	// pagination:{
+			// 	// 	el: '.swiper-pagination',
+			// 	// 	clickable: true
+			// 	// }
+			// }
+		}
+	},
+	
+	filters: {
+		capitalize(value) {
+			if (!value) return ''
+			value = value.toString().toLowerCase()
+			return value.charAt(0).toUpperCase() + value.slice(1)
+		}
+	},
+	computed: {
+		ancho (){
+			return this.$store.state.ancho
+		},
+		nSlides(){
+			return this.ancho>900 ? 14 : this.ancho>700 ? 9 : this.ancho>500 ? 7 : 4
+		},
+		swiperOption(){
+			return {
+				slidesPerView: this.nSlides,
+				spaceBetween: 1,
 				freeMode: true,
-				// slidesPerGroup: 5, 
-				// centeredSlides: true,
 				slideToClickedSlide: true,
-				loop: true,
 				loopFillGroupWithBlank: true,
-				// autoplay: {
-				// 	stopOnLastSlide: true,
-				// 	delay: 1500
-				// 	},
 				navigation: {
 					nextEl: '.swiper-button-next',
 					prevEl: '.swiper-button-prev'
 				},
-				// pagination:{
-				// 	el: '.swiper-pagination',
-				// 	clickable: true
-				// }
 			}
 		}
 	},
@@ -74,18 +102,20 @@ export default {
 
 <style scoped>
 .swiper-container {
-    width: 80%;
-    height: 120px;
+    width: 70%;
+    height: 100px;
+	/* padding-left: 20px; */
+	/* padding-right: 50px; */
 }
 
 
 .dcategorias {
-	width: 120px;
+	width: 50px;
 	height: auto;
-	max-width: 120px;
-	max-height: 120px;
-	min-width: 100px;
-	margin: 10px;
+	max-width: 50px;
+	max-height: 50px;
+	min-width: 50px;
+	/* margin: 10px; */
 	text-align: center;
 	display: grid;
 	grid-template-rows: auto;
@@ -95,8 +125,8 @@ export default {
 }
 
 .imagen{
-	width: 80px !important;
-	height: 80px !important;
+	width: 50px !important;
+	height: 50px !important;
 }
 .dcategoria span{
 	width: 100%;
@@ -114,12 +144,70 @@ export default {
 	font-size: 22px !important;
 	color: var(--a-color);
 }
-.swiper-button-prev,.swiper-button-next{
+/* .swiper-button-prev,.swiper-button-next{
 	width: 40px;
 	height: 40px;
 	min-width: 22px;
 	background-color: rgba(179, 179, 179, .5);;
 	border-radius: 20px;
+	margin-top: -45px;
+} */
+.swiper-button-prev,.swiper-button-next{
+	width: 40px;
+	height: 100px;
+	min-width: 22px;
+	background-color: #fff;
+	margin-top: -70px;
 }
+.swiper-button-prev{
+	left: 0;
+}
+.swiper-button-next{
+	right: 0;
+}
+.swiper-button-prev.swiper-button-disabled{
+	opacity: 0;
+}
+.swiper-button-next.swiper-button-disabled{
+	opacity: 0;
+}
+
+.tooltiptext {
+  visibility: hidden;
+  width: 80px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 2px 5px;
+  font-size: .8em;
+  margin-top: 52px;
+  position: absolute;
+  margin-left: -20px;
+  
+  /* position: absolute;
+  z-index: 1;
+  top: 100%;
+  left: 50%;
+  margin-left: -60px; */
+}
+
+.dcategorias:hover .tooltiptext {
+  visibility: visible;
+}
+
+@media (max-width: 1200px) {
+	.swiper-container {
+    	width: 90%;
+	}
+	
+}
+@media (max-width: 900px) {
+	.swiper-container {
+    	width: 95%;
+	}
+	
+}
+
 
 </style>

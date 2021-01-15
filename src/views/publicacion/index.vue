@@ -1,6 +1,11 @@
 <template>
 	<section>
-		<img src="@/assets/img/works.jpg" alt="Proskers" class="trabajos">
+		<div class="fondoTitulo">
+			<span class="busqueda">
+				<buscar/>
+			</span>
+		</div>
+		<img src="@/assets/img/separador2.png" alt="separador" class="separador">
 		<barra v-if="cargandoProsker"/>
 		<div class="contenedorPrincipal" v-if="!cargandoProsker&&datos.length>0">
 			<div class="contenedorUsuario">
@@ -34,6 +39,7 @@ export default {
 	},
 	components: {
 		barra: () => import('@/components/barra'),
+		buscar: () => import('@/components/buscar')
 	},
 	data() {
 		return {
@@ -84,6 +90,27 @@ export default {
 	h3{
 		color: var(--a-color);
 		font-size: 1.2em;
+	}
+	.fondoTitulo{
+		width: 100%;
+		height: 200px;
+		position: absolute;
+		top: 0;
+		z-index: -1;
+		background-color: var(--a-color);
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		flex-wrap: wrap;
+		padding-top: 3em;
+	}
+	.separador{
+		margin-top: 140px;
+		width: 100%;
+		height: auto;
+		background-color: transparent;
+		border: none;
 	}
 	.contenedorPrincipal{
 		width: 50%;

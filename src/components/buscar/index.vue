@@ -3,14 +3,16 @@
 		<div class="contenedor">
 			<span>
 				<input type="text" class="buscar" :placeholder="'Buscar por '+`${opcion==0 ? 'Categoria': 'Prosker'}`" v-model="busqueda" @keypress="mostrar=true">
-				<i class="material-icons">search</i>
+				<div class="lupa">
+					<i class="material-icons">search</i>
+				</div>
 			</span>
 			<span>
-				<label for="uno">
+				<label >
 					<input type="radio" name="opcion" value="0" v-model="opcion" :checked="opcion==0 ? true : false" @change="cambiarLista(0)" >
 					Categoría
 				</label>
-				<label for="Dos">
+				<label>
 					<input type="radio" name="opcion" value="1" v-model="opcion"  @change="cambiarLista(1)" @keypress="mostrar=true">
 					Prosker
 				</label>
@@ -32,11 +34,12 @@ export default {
 		return {
 			opcion: 0,
 			busqueda: "",
-			mostrar: true
+			mostrar: true,
+			lista: []
 		}
 	},
 	created() {
-		
+		this.lista=this.categorias.datos
 	},
 	computed: {
 		proskers(){
@@ -53,41 +56,14 @@ export default {
 			}
 			
 		},
-		lista:{
-			get: function(){
-				if (this.opcion===0) {
-					return this.categorias.datos
-				}else{
-					return this.proskers.datos
-				}
-
-			},
-			set: function(newValue){
-				if (this.opcion===0) {
-					return this.categorias.datos
-				}else{
-					return this.proskers.datos
-				}				
-			}
-		}
-		
-		// lista(){
-		// 	if (this.opcion===0) {
-		// 		return this.categorias.datos
-		// 	}else{
-		// 		return this.proskers.datos
-		// 	}
-		// }
 	},
 	methods: {
 		cambiarLista(nro){
 			this.busqueda=''
 			if (nro===0) {
 				this.lista=this.categorias.datos
-				console.log('categorias')
 			}else{
 				this.lista=this.proskers.datos
-				console.log('prosker')
 			}
 		
 		},
@@ -96,9 +72,11 @@ export default {
 			this.busqueda=opc.nombre.toLowerCase()
 			if (this.opcion===0) {
 				this.$emit('opcion',{tipo:'Categorias',datos:opc})
+
 			}else{
 				this.$emit('opcion',{tipo:'Proskers',datos:opc})
 			}
+			this.busqueda = ''
 		},
 	},
 }
@@ -125,12 +103,21 @@ export default {
 		justify-content: center;
 		align-items: center;
 	}
+	.lupa{
+		height: 40px;
+		width: 50px;
+		background-color: var(--f-color);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		
+	}
 	.buscar{
-		margin: 5px;
+		margin: 5px 0;
 		padding: 0 20px;
 		min-width: 400px;
 		height: 40px;
-		border-radius: 20px;
+		/* border-radius: 20px; */
 		/* border: 1px solid var(--a-color); */
 		border: none;
 		outline: none;
@@ -197,5 +184,20 @@ export default {
 		text-transform: capitalize;
 		/* border-bottom: 1px solid var(--d-color); */
 	}
+	@media (max-width: 650px) {
+		.buscar{
+			min-width: 300px
+		}
+		
+	}
+	@media (max-width: 450px) {
 
+		.buscar{
+			min-width: 250px
+		}
+		/* .contenedor{
+			position: relative;
+		} */
+		
+	}
 </style>

@@ -1,35 +1,106 @@
 <template>
 	<article class="home">
-		<!-- <img alt="imagen Home" src="@/assets/img/homeprosk.jpg"> -->
+		<img alt="imagen Home" :src="slider[opcion].imagen" class="imagenHome">
 		<div class="fondo">
-			<buscar @opcion="seleccion($event)"/>
+			<div class="textoTitulo">
+				<h1 v-html="slider[opcion].titulo"></h1>
+			</div>
+			<div class="buscar">
+				<buscar @opcion="seleccion($event)"/>
+			</div>
 		</div>
-		<publicaciones />
+			<span class="botones">
+				<button v-for="(idx,index) in slider.length" :key="index" :style="opcion===index ? 'background-color:#fff': null" @click="opcion=index"></button>
+			</span>
+		<redesSociales/>
 		<categorias />
+		<proskerDestacados />
+		<!-- <div class="espacio"></div> -->
+		<publicaciones :datos="datosPublicaciones.datos" v-if="!datosPublicaciones.cargando"/>
+		<div class="banner">
+			<div>
+				<h2>Trabajas de forma independiente, querés empezar a hacerlo o trabajas en relación de dependencia y querés tener ingresos extras/complementarios?</h2>
+				<h3>Querés manejar tus horarios? sos proactivo, innovador?, trabajas por tu cuenta y estás necesitando una red para contactar con nuevos clientes? Descargate Prosk, ármate tu perfil, publicá tus servicios y comenzá a ganar.</h3>
+				<br>
+				<button class="botonAceptar" @click="ir('Funcionamiento')">Conoce más</button>
+			</div>
+		</div>
+		<div class="banner2">
+			<div class="div1">
+				<div>
+					<h2>Red Social de Trabajo y Negocios</h2>
+					<h3>Prosk es una nueva plataforma de trabajo y negocios, ideal para profesionales y trabajadores independientes, donde pueden promocionarse y mostrar lo que ofrecen de manera visual con fotos y videos como las redes sociales.También es para las personas que necesitan contratar profesionales,  que los  pueden buscar por categorías, subcategorías, geolocalización y reputación.</h3>
+				</div>
+			</div>
+			<div class="div2">
+				<mostrarProskers/>
+			</div>
+		</div>
 	</article>
 </template>
 
 <script>
 
 export default {
-  name: 'Home',
-  components: {
+	name: 'Home',
+	components: {
 		publicaciones: () => import('@/components/publicaciones'),
 		categorias: () => import('@/components/categorias'),
-		buscar: () => import('@/components/buscar')
+		buscar: () => import('@/components/buscar'),
+		proskerDestacados: () => import('@/components/proskersDestacados'),
+		mostrarProskers: () => import('@/components/mostrarProskers'),
+		redesSociales: () => import('@/components/redesSociales'),
 
-  },
-  data() {
+
+
+	},
+	data() {
 		return {
-			
+			tiempo: null,
+			opcion: 0,
+			idx: 0,
+			slider:[
+				{
+					imagen:	require('@/assets/img/slider1.jpg'),
+					titulo: 'La nueva app para promoción y contratación de profesionales independientes'
+				},
+				{
+					imagen:	require('@/assets/img/slider2.jpg'),
+					titulo: '¿Sos profesional independiente? <br>Registrate, mostrá lo que sabes hacer y contactá nuevos clientes'
+				},
+				{
+					imagen:	require('@/assets/img/slider3.jpg'),
+					titulo: '¿Necesitas contratar un profesional de confianza? <br>Descargate prosk y encontralo!'
+				},
+				{
+					imagen:	require('@/assets/img/slider4.jpg'),
+					titulo: 'Contratá gente apasionada por su trabajo, encontrá profesionales de cientos de categorías'
+				},
+				{
+					imagen:	require('@/assets/img/slider5.jpg'),
+					titulo: 'Descargate la app y convertite en prosker para contactar con tu próximo cliente'
+				},
+			]
 		}
-  },
-  methods: {
+	},
+	mounted() {
+		this.comenzarCuentaRegresiva()
+	},
+	computed: {
+		datosPublicaciones () {
+			return this.$store.state.publicaciones
+		},
+	},
+
+	methods: {
+		comenzarCuentaRegresiva(){
+			this.tiempo = setInterval(()=>this.cambiarOpcion(), 5000);
+		},
 		seleccion(opc){
 			if (opc.tipo==='Categorias') {
 				this.ir("Mostrar Categorias",opc.datos)
 			}else{
-				this.ir("Prosker",opc.datos)
+				this.ir("Prosker",opc.datos.idEnc)
 
 			}
 		},
@@ -38,30 +109,211 @@ export default {
 				name: pag, 
 				params: {data}
 			}).catch(() => {})
+		},
+		cambiarOpcion(){
+			clearInterval(this.tiempo)
+			if (this.opcion===this.slider.length-1) {
+				this.opcion=0
+				
+			}else{
+				this.opcion++
+			}
+			this.comenzarCuentaRegresiva()
 		}
-  },
+	},
 
 }
 </script>
 <style scoped>
 	article{
 		width: 100%;
-		text-align: center;
-
+		/* text-align: center; */
 	}
 	img{
 		width: 100%;
 		height: auto;
 	}
-	.fondo{
+	h1{
+		color: var(--e-color);
+		font-weight: 900;
+		font-size: 2em;
+		margin-left: 40px;
+	}
+	.imagenHome{
 		width: 100%;
-		height: 50vh;
-		background-image: url("./homeprosk.jpg");
-		background-size: 100% auto;
+		height: 570px;
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: -1;
+		animation: aparecer2 2s ease;
+		object-fit: cover;
+	}
+	.fondo{
+		width: 55%;
+		height: 400px;
+		padding-top: 100px;
+		flex-wrap: wrap;
+		justify-content: flex-start;
+		align-items: center;
+		z-index: 1;
+		text-align: center;
+		/* background-color: red; */
+		margin-left: 100px;
+	}
+	.fondo div{
+		margin-bottom: 30px;
+	}
+	.banner{
+		background-image: url('../../assets/img/banner.jpg');
+		background-position: left;
+		background-size: cover;
 		background-repeat: no-repeat;
+		width: 100%;
+		min-height: 500px;
+		margin-top:-80px;
+		z-index: -1;
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+	}
+	.banner div{
+		width: 40%;
+		margin: 0 80px;
+		text-align: right;
+	}
+	.banner div h2{
+		font-size: 1.6em;
+		color: var(--c-color);
+	}
+	.banner div h3{
+		font-size: 1.2em;
+		color: var(--c-color);
+		font-weight: 200;
+		line-height: 1.5;
+	}
+	.banner div button{
+		width: 160px;
+	}
+	.banner2 {
+		background-color: var(--d-color);
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		grid-template-rows: 1fr;
+		grid-column-gap: 0px;
+		grid-row-gap: 0px;
+	}
+
+	.div1 { grid-area: 1 / 1 / 2 / 2; }
+	.div2 { grid-area: 1 / 2 / 2 / 3; }
+
+	.div1,.div2{
+		min-height: 500px;
 		display: flex;
 		justify-content: center;
 		align-items: center;
+	}
+	.div1 div{
+		width: 80%;
+		margin-left: 120px;
+	}
+	.div1 div h2{
+		font-size: 2.1em;
+		color: var(--c-color);
+	}
+	.div1 div h3{
+		font-size: 1.4em;
+		color: var(--c-color);
+		font-weight: 200;
+		line-height: 1.5;
+	}
+	.botones{
+		width: 100%;
+		margin: auto;
+		display: flex;
+		justify-content: center;
+		margin-top: -30px
+	}
+	.botones button{
+		width: 10px;
+		height: 10px;
+		padding: 5px;
+		border-radius: 10px;
+		border: 2px solid #fff;
+		background-color: transparent;
+		outline: none;
+	}
+	.buscar{
+		width: 100%;
+		display: flex;
+		justify-content: center;
+	}
+	.espacio{
+		min-height: 20vh
+	}
+	.textoTitulo{
+		min-height: 120px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	@media (max-width: 1000px) {
+		.fondo{
+			padding-top: 180px;
+			width: 70%;
+			margin: auto;
+			justify-content: center;
+		}
+		h1{
+			margin-left: 0;
+			font-size: 1.8em;
+		}
+		.banner{
+			background-position: right;
+		}
+		.banner div{
+			width: 100%;
+			margin: 0 50px;
+			text-align: center;
+		}
+		.banner2 {
+			grid-template-columns: 1fr;
+			grid-template-rows: repeat(2, 1fr);
+		}
+
+		.div1 { grid-area: 1 / 1 / 2 / 2; }
+		.div2 { grid-area: 2 / 1 / 3 / 2; }
+		.div1 div{
+			width: 100%;
+			margin: 50px;
+			text-align: center;
+		}
+		.div1 div h2{
+			font-size: 1.6em;
+		}
+		.div1 div h3{
+			font-size: 1.2em;
+		}
+	}
+	@media (max-width: 550px) {
+		.fondo{
+			padding-top: 180px;
+			width: 90%;
+			
+		}
+		.banner div{
+			margin: 0 10px;
+			text-align: center;
+		}
+		.div1 div{
+			margin: 10px;
+		}
+		
+	}
+	@media (max-width: 1200px) {
+		.banner{
+			margin-top: -40px;
+		}
 
 	}
 

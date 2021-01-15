@@ -1,19 +1,8 @@
-/* @font-face{
-	font-family: 'SimplySans';
-	src: url(../fuentes/SimplySans-Book.ttf);
+*{
+	font-family: 'Raleway', sans-serif;
 }
-@font-face{
-	font-family: 'SimplySans Bold';
-	src: url(../fuentes/SimplySans-Bold.ttf);
-}
-@font-face{
-	font-family: 'SimplySans Italic';
-	src: url(../fuentes/SimplySans-BookItalic.ttf);
-}
-@font-face{
-	font-family: 'SimplySans Bold Italic';
-	src: url(../fuentes/SimplySans-BoldItalic.ttf);
-} */
+
+
 :root {
 	--swiper-navigation-size: 22px;
 	/*
@@ -36,6 +25,10 @@ body{
 	--c-color: #414246;
 	--d-color: #E6E6E6;
 	--e-color: #FFFFFF;
+	--f-color: #22A24D;
+	--g-color: #000000;
+	--h-color: #96989A;
+	--j-color: #ACE0D1;
 }
 
 body  {
@@ -91,12 +84,13 @@ strong {
 
 .botonAceptar{
     width: 150px;
-    border: 1px solid #fff;
-	border-radius: 50px;
+    /* border: 1px solid #fff; */
+	border-radius: 6px;
+	border: none;
     color: white;
     background: transparent;
-    background-color: var(--a-color);
-    padding: 5px 30px;
+    background-color: var(--b-color);
+    padding: 10px 30px;
     margin: 4px 4px;
     transition-duration: 0.4s;
     cursor: pointer;
@@ -118,12 +112,12 @@ strong {
 
 .botonCancelar{
     width: 150px;
-    border: 1px solid var(--j-color);
-	border-radius: 50px;
+    /* border: 1px solid var(--j-color); */
+	border-radius: 6px;
     color: white;
     background: transparent;
-    background: linear-gradient(#252426, #000);
-    padding: 5px 30px;
+    background: var(--c-color);
+    padding: 10px 30px;
     margin: 4px 4px;
     transition-duration: 0.4s;
     cursor: pointer;
@@ -136,7 +130,7 @@ strong {
 .botonCancelar:hover{
     cursor:pointer;
     color: white;
-    background: linear-gradient(var(--c-color), var(--d-color));
+    background: #000;
    }
 
 .botonCancelar:active{

@@ -1,8 +1,8 @@
 import axios from 'axios'
 
-export default () =>new Promise ((resolve, reject) => {
+export default (entrada) =>new Promise ((resolve, reject) => {
     axios
-    .post(`${process.env.API_URL}dfs30000`)
+    .post(`${process.env.API_URL}dfs30000fd`,entrada)
     .then(response => {
         if (!response.data) {
             reject('No hay retorno de login')
@@ -11,7 +11,6 @@ export default () =>new Promise ((resolve, reject) => {
         } else if (response.data.ErrorSDT.ErrorCode === 0) {
 			// publicaciones = response.data.frontProsker
 			// finEnc = response.data.finEnc
-		
 			resolve(response.data.frontListGeneral.categoria)
 
         } else {

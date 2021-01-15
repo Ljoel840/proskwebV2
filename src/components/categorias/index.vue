@@ -1,6 +1,6 @@
 <template>
 	<section>
-		<h1>CATEGORIAS</h1>
+		<!-- <h1>CATEGORIAS</h1> -->
 		<div class="cargando" v-if="datosCategorias.cargando">
 			<spinner-circular  v-if="datosCategorias.cargando"/>
 		</div>
@@ -68,7 +68,7 @@ export default {
 		width: 100%;
 		text-align: center;
 		margin: 3em 0;
-		background-color: var(--d-color);
+		/* background-color: var(--d-color); */
 	}
 	h1{
 		font-size: 1.5em;

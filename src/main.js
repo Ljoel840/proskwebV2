@@ -16,9 +16,21 @@ import 'swiper/swiper-bundle.css'
 Vue.use(VueAwesomeSwiper, Swiper)
 //--- AwesomeSwiper - Slider
 
+//--- Google Maps ----
+import * as VueGoogleMaps from "vue2-google-maps";
+Vue.use(VueGoogleMaps, {
+	load: {
+	  key: "AIzaSyCNooIeXDvdlfzJbrQ6EJvPCh7hnnibd04",
+	},
+  });
+
+
+
+
 Vue.config.productionTip = false
 
 Vue.use(styglobals,styanimations)
+Vue.config.productionTip = false
 
 new Vue({
   router,
@@ -30,6 +42,15 @@ new Vue({
 	}, true),
 	this.$store.commit('cargarPublicaciones'),
 	this.$store.commit('cargarCategorias'),
-	this.$store.commit('cargarProskers')
+	this.$store.commit('cargarProskers'),
+	this.$store.commit('cargarCategoriasFAQ'),
+	this.$store.commit('cargarCategoriasBlog'),
+	this.$store.commit('cargarTagsBlog'),
+	this.$store.commit('setearHora'),
+	this.$store.commit('cargarPosicion'),
+	setInterval(() => {
+		this.$store.commit('setearHora')
+	}, 8000)
+
 }
 }).$mount('#app')

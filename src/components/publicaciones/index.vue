@@ -1,43 +1,63 @@
 <template>
 	<section>
-		<h1>PUBLICACIONES</h1>
-		<div class="cargando" v-if="datosPublicaciones.cargando">
-			<spinner-circular  v-if="datosPublicaciones.cargando"/>
-		</div>
-		<span class="contenedor" v-if="!datosPublicaciones.cargando">
-			<!-- <div v-for="index in 4" :key="index" class="dPublicaciones">
-				<div class="fondo" :style="{ backgroundImage: 'url(' + datosPublicaciones.datos[index].imagen + ')' }" @click="ir('Publicacion',datosPublicaciones.datos[index])">
-					<span class="descripcion">{{datosPublicaciones.datos[index].descripcion}}</span>	
+		<h1>Últimas Publicaciones</h1>
+		<span class="contenedor" v-if="datos.length>0">
+			<publicacion v-for="(d,index) in datos" :key="index" :d="d"/>
+			<!-- <div v-for="(d,index) in datos" :key="index" class="dPublicaciones">
+				<div class="fondo" :style="{ backgroundImage: 'url(' + d.imagen + ')' }" @click="ir('Publicacion',d)" v-if="d.imagen"></div>
+				<video class="fondo" :src="d.video"  @click="ir('Publicacion',d)" v-else></video>
+				<div class="descripcion">
+					<p>{{d.descripcion}}</p>
 				</div>
 				<span class="prosker">
-					<div class="foto" :style="{ backgroundImage: 'url(' + datosPublicaciones.datos[index].foto + ')' }" @click="ir('Prosker',datosPublicaciones.datos[index].idEncUsuario)" ></div>
-					<p class="categoria">{{datosPublicaciones.datos[index].categoria.toLowerCase()}}</p>
+					<div class="foto" :style="d.foto ?{ backgroundImage: 'url(' + d.foto + ')' }:{ backgroundImage: 'url(' + sinFoto + ')' }" @click="ir('Prosker',d.idEncUsuario)" ></div>
+					<div>
+						<p class="nombre">{{d.nombre.toLowerCase()}}</p>
+						<p class="categoria">{{d.categoria.toLowerCase()}}</p>
+					</div>
 					<span>
 						<i class="material-icons">favorite</i>
-						<p>{{datosPublicaciones.datos[index].like}}</p>
+						<p>{{d.like}}</p>
 					</span>
 				</span>
 				<br>
+				<div class="cortina" v-if="cortina"> 
+					<p>favor loguearse</p>
+				</div>
 			</div> -->
-			<slider :datos="datosPublicaciones.datos" />
 		</span>
+		<!-- <barra v-if="datosPublicaciones.cargando" /> -->
+		<button class="verMas" @click="agregarDatos()">
+			<img src="@/assets/img/i_mas.png" alt="boton mas">
+		</button>
+		<img class="separador" src="@/assets/img/separador.png" alt="">
 	</section>
 </template>
 <script>
 // import Slider from './slider.vue'
-import extraer from './extraerPublicaciones2'
+// import extraer from './extraerPublicaciones'
 export default {
 	name: 'publicaciones',
+	props: {
+		datos:{
+			type: Array
+		}
+	},
 	components: {
 		spinnerCircular: () => import('@/components/spinnerCircular'),
-		slider: () => import('@/components/sliderPublicaciones')
+		barra: () => import('@/components/barra'),
+		publicacion: () => import('./publicacion'),
+
+		// slider: () => import('@/components/sliderPublicaciones')
 	},
 	data() {
 		return {
 			tiempo: null,
 			cargando:false,
 			error: null,
-			datos: []
+			sinFoto: require ('@/assets/img/usuario.png'),
+			cortina: true
+			// datos: []
 			// datosPublicaciones: []
 		}
 	},
@@ -55,12 +75,12 @@ export default {
 	// 	}
 	// 	this.cargando = false
 	// },
-	created() {
-		extraer(this)
-	},
-	mounted() {
-		this.comenzarCuentaRegresiva()
-	},
+	// created() {
+	// 	extraer(this)
+	// },
+	// mounted() {
+	// 	this.comenzarCuentaRegresiva()
+	// },
 	computed: {
 		datosPublicaciones () {
 			return this.$store.state.publicaciones
@@ -78,14 +98,13 @@ export default {
 				params: {data}
 			}).catch(() => {})
 		},
-		comenzarCuentaRegresiva(){
-			this.tiempo = setInterval(()=>this.agregarDatos(), 10000);
-		},
+		// comenzarCuentaRegresiva(){
+		// 	this.tiempo = setInterval(()=>this.agregarDatos(), 10000);
+		// },
 		
 		agregarDatos(){
-			clearInterval(this.tiempo)
+			// clearInterval(this.tiempo)
 			this.$store.commit('agregarPublicaciones')
-			// console.log(this.datosPublicaciones)
 			// this.comenzarCuentaRegresiva()
 		}	
 	},
@@ -95,11 +114,13 @@ export default {
 	section{
 		width: 100%;
 		text-align: center;
-		margin: 1em 0;
+		margin: 4em 0 0 0;
 	}
 	h1{
 		font-size: 2em;
-		color: var(--a-color)
+		color: var(--c-color);
+		text-align: left;
+		margin-left: 5vw
 	}
 	.contenedor{
 		width: 100%;
@@ -107,6 +128,7 @@ export default {
 		display: flex;
 		justify-content: center;
 		flex-wrap: wrap;
+		
 	}
 
 	.cargando {
@@ -117,14 +139,16 @@ export default {
 	.contenedor .dPublicaciones {
 		width: 100%;
 		height: auto;
-		max-width: 300px;
+		max-width: 250px;
 		max-height: 300px;
 		margin: 20px;
+		padding: 10px;
+		box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
 	}
 	.contenedor .fondo{
 		width: 100%;
-		height: 150px;
+		height: 200px;
 		/* background-image: url('@/assets/imagen1.jpg'); */
 		background-size: 320px auto ;
 		background-position: center;
@@ -135,7 +159,8 @@ export default {
 		
 	}
 
-	.contenedor .fondo span{
+
+	/* .contenedor .fondo span{
 		width: 100%;
 		height: 30px;
 		background-color: rgba(0, 0, 0, .8);
@@ -143,7 +168,7 @@ export default {
 		font-size: .8;
 		overflow: hidden;
 
-	}
+	} */
 
 	.contenedor div img{
 		width: 100%;
@@ -155,7 +180,7 @@ export default {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		background-color: var(--d-color);
+		/* background-color: var(--d-color); */
 	}
 	.prosker .foto{
 		width: 40px;
@@ -176,19 +201,71 @@ export default {
 	.prosker .categoria{
 		text-transform: capitalize;
 		line-height: 1;
-		
-
+		font-size: .7em;
+	}
+	.prosker .nombre{
+		color: var(--a-color);
+		font-weight: 800;
+		text-transform: capitalize;
+		line-height: 1;
+		font-size: .7em;
 	}
 	.prosker span{
 		display: flex;
 		color: var(--a-color);
-		background-color: var(--d-color);
+		/* background-color: var(--d-color); */
 	}
 
 	i{
 		color: var(--a-color);
 	}
 	.descripcion{
-		font-size: .9em;
+		width: 100%;
+		height: 40px;
+		overflow: hidden;
+		margin: 5px 0;
 	}
+	.descripcion p{
+		font-size: .9em;
+		line-height: 1;
+	}
+	.separador{
+		width: 100%;
+		height: 80px;
+		border: none;
+		z-index: 3;
+		background-color: transparent;
+		object-fit: fill;
+	}
+	.verMas{
+		width: 100px;
+		height: auto;
+		position: absolute;
+		left: 50%;
+		margin-left: -50px;
+		margin-top: 20px;
+		background-color: transparent;
+		border: none;
+		cursor: pointer;
+		outline: none;
+	}
+	.verMas img{
+		width: 80px;
+		height: auto;
+	}
+	.verMas:hover img{
+		filter: grayscale(80%);
+	}
+	/* .cortina{
+		position: absolute;
+		width: 250px;
+		height: 300px;
+		background-color: rgba(0, 0, 0, 0.4);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	.cortina p {
+		color: var(--e-color);
+	} */
 </style>

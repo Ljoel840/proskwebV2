@@ -9,8 +9,8 @@
 */ 
 
 const des = {
-	apiUrl: "http://169.57.129.247:8080/ProskBackendBackend/rest/",
-	apiContactUrl: "http://169.57.129.247:8080/ProskBackendBackend/rest/",
+	apiUrl: "http://localhost:3000/rest/",
+	apiContactUrl: "https://testapps.desarrollodesoftwareamedida.com/testdelfawebs/rest/",
     routerMode: false,
     publicPath: "/",
     backend: false
@@ -21,7 +21,7 @@ const des = {
 */
 const test = {
 	apiUrl: "http://169.57.129.247:8080/ProskBackendBackend/rest/",
-	apiContactUrl: "http://169.57.129.247:8080/ProskBackendBackend/rest/",
+	apiContactUrl: "https://testapps.desarrollodesoftwareamedida.com/testdelfawebs/rest/",
     routerMode: false,
     publicPath: "/",
     backend: false
@@ -44,7 +44,7 @@ const prod = {
 	// apiUrl: "http://158.85.5.171:8080/proskbackend/rest/",
 	// apiContactUrl: "http://158.85.5.171:8080/proskbackend/rest/",
 	apiUrl: "https://proskapp.com/proskbackend/rest/",
-    apiContactUrl: "https://proskapp.com/proskbackend/rest/",
+    apiContactUrl: "https://apps.delfasoft.com/delfawebs/rest/",
 
     routerMode: false,
     publicPath: "/",
