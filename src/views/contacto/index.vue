@@ -3,6 +3,7 @@
 		<div class="fondoTitulo">
 			<h1>Contacto</h1>
 		</div>
+		
 		<div class="contenedor">
 			<img src="@/assets/img/separador2.png" alt="separador" class="separador">
 			<div class="formulario">
@@ -11,25 +12,35 @@
 					<img src="@/assets/img/i_user.png" alt="icono Usuario" class="iconoForm">
 					<input type="text" class="form-control " placeholder="Nombre y Apellido" autocomplete="off" v-model="datos.nombre">
 				</label>
+					<p v-if="errorNombre">{{errorNombre}}</p>
 				<label>
 					<img src="@/assets/img/i_mail.png" alt="icono email" class="iconoForm">
 					<input type="mail" class="form-control " placeholder="Correo Electrónico" autocomplete="off" v-model="datos.correo">
 				</label>
+					<p v-if="errorCorreo">{{errorCorreo}}</p>
 				<label>
 					<img src="@/assets/img/i_phone.png" alt="icono Teléfono" class="iconoForm">
 					<input type="tel" class="form-control" placeholder="Nro. de Teléfono" autocomplete="off" v-model="datos.telefono">
 				</label>	
+					<p v-if="errorTelefono">{{errorTelefono}}</p>
 				<label>
 					<img src="@/assets/img/i_message.png" alt="icono Mensaje" class="iconoForm">
 					<textarea v-model="datos.mensaje" class="form-control" placeholder="Comentario" rows="4" ></textarea> 
 				</label>
+					<p v-if="errorMensaje">{{errorMensaje}}</p>
 				<br>
-				<button class="botonAceptar">Enviar</button>					
+				<button class="botonAceptar" @click="enviar()">Enviar</button>					
 			</div>
 		</div>
+		<div id="snackbar">{{mensajeEnvio}}</div>
 	</section>
 </template>
 <script>
+import valida from './validar'
+// import {transporter} from '@/components/mailer'
+let emailjs = require("emailjs-com");
+
+
 export default {
 	name: 'contacto',
 
@@ -44,8 +55,78 @@ export default {
 				correo: '',
 				telefono: '',
 				mensaje: '',
+			},
+			errorNombre: null,
+			errorCorreo: null,
+			errorTelefono: null,
+			errorMensaje: null,
+			mensajeEnvio: null,
+			errors: false,
+
+		}
+	},
+	created() {
+		emailjs.init("user_pj5Hm73JqlMX245SMzc7H");
+	},
+	methods: {
+		snack() {
+			var x = document.getElementById("snackbar");
+			x.className = "show";
+			setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+		},
+		enviar(){
+			valida(this)
+			if (!this.errors) {
+				this.enviarCorreo()
+				
+				this.limpiarDatos()
+			}
+		},
+		limpiarDatos(){
+			this.datos.nombre = ''
+			this.datos.correo = ''
+			this.datos.telefono = ''
+			this.datos.mensaje = ''
+		},
+		
+		async enviarCorreo(){
+			try{
+				let msg = {
+					nombre: this.datos.nombre,
+					correo: this.datos.correo,
+					telefono: this.datos.telefono,
+					mensaje:this.datos.mensaje,
+				}
+				await emailjs.send("default_service", "template_7n5q3gb", msg)
+				this.mensajeEnvio='Gracias por Escribirnos'
+				this.snack()
+			}
+			catch(error){
+				this.mensajeEnvio='Error al enviar el formulario'
+				this.snack()
 			}
 		}
+
+		// async enviarCorreo(){
+		// 	try{
+		// 		await transporter.sendMail({
+		// 			from: 'Contacto Prosk" <contactoProsk.gmail.com>', 
+		// 			to: "joellealad@gmail.com", 
+		// 			subject: `"Nuevo Mensaje de Contacto de: " ${this.datos.nombre}`, 
+		// 			replyTo: this.datos.correo,
+		// 			html: `<p><strong>"Nombre: </strong>" ${this.datos.nombre} </p>
+		// 				   <p><strong>"Correo: </strong>" ${this.datos.correo} </p>
+		// 				   <p><strong>"Teléfono: </strong>" ${this.datos.telefono} </p>
+		// 				   <p><strong>"Mensaje: </strong>" ${this.datos.mensaje} </p>
+		// 			`, 
+		// 		});
+		// 	}
+		// 	catch(error){
+		// 		this.mensajeEnvio='Error al enviar el formulario'
+		// 		this.snack()
+		// 	}
+		// }
+
 	},
 
 
@@ -193,6 +274,30 @@ export default {
 			margin-top: -5px;
 		}
 	}
+
+	#snackbar {
+		visibility: hidden;
+		min-width: 250px;
+		margin-left: -125px;
+		background-color: var(--b-color);
+		color: #fff;
+		text-align: center;
+		border-radius: 2px;
+		padding: 16px;
+		position: fixed;
+		z-index: 1;
+		left: 50%;
+		Bottom: 30px;
+		font-size: 17px;
+	}
+
+	#snackbar.show {
+		visibility: visible;
+		-webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+		animation: fadein 0.5s, fadeout 0.5s 2.5s;
+	}
+
+
 	@media (max-width: 600px) {
 		.formulario{
 			max-width: 300px;

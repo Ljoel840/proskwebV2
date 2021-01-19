@@ -8,7 +8,7 @@
 		<img src="@/assets/img/separador2.png" alt="separador" class="separador">
 		<barra v-if="cargandoProsker"/>
 		<div class="contenedorPrincipal" v-if="!cargandoProsker&&datos.length>0">
-			<div class="contenedorUsuario">
+			<div class="contenedorUsuario" @click="ir('Prosker',datos[0].idEnc)">
 				<div class="foto" :style="{ backgroundImage: 'url(' + datos[0].foto + ')' }"></div>
 				<div class="datos">
 					<h2>{{datos[0].nombre}}</h2>
@@ -67,7 +67,13 @@ export default {
 				console.log(this.error)
             }
 			this.cargandoProsker = false
-        },
+		},
+		ir(pag,data){
+			this.$router.push({
+				name: pag, 
+				params: {data}
+			}).catch(() => {})
+		},
 		
 	},
 

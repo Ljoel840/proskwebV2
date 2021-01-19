@@ -13,7 +13,7 @@
 			<div class="texto">
 				<h1>EN CONSTRUCCIÓN</h1>
 
-				<button class="botonAceptar">Contactanos</button>
+				<button class="botonAceptar" @click="ir('Contacto')">Contactanos</button>
 			</div>
 		</div>
 
@@ -36,6 +36,14 @@ export default {
 			mostrar: false,
 			datos
 		}
+	},
+	methods: {
+		ir (pag,para) {
+			this.$router.push({
+				name: pag, 
+				params: para
+			}).catch(() => {})
+		},
 	},
 }
 </script>
@@ -101,6 +109,7 @@ export default {
 		width: 100%;
 		max-width: 500px;
 		height: auto;
+		max-height: 500px;
 	}
 	.contenedor .texto{
 		min-width: 500px;

@@ -13,9 +13,9 @@
 		<a href="https://www.instagram.com/proskorg/" :class="redes ? 'aparecer3':null" v-if="redes" target="_blank">
 			<img src="@/assets/img/i_instagram.png" alt="icono instagram">
 		</a>
-		<!-- <a href="#" :class="redes ? 'aparecer3':null" v-if="redes">
+		<a href="https://www.youtube.com/channel/UCdYGeerRWTPJu5qT8K2r6wQ" :class="redes ? 'aparecer4':null" v-if="redes">
 			<img src="@/assets/img/i_youtube.png" alt="icono youtube">
-		</a> -->
+		</a>
 	</aside>
 </template>
 <script>
@@ -75,6 +75,8 @@ export default {
 	.aparecer3{
 		animation: izquierda .8s ease;
 	}
-
+	.aparecer4{
+		animation: izquierda .10s ease;
+	}
 
 </style>

@@ -13,7 +13,9 @@ const des = {
 	apiContactUrl: "https://testapps.desarrollodesoftwareamedida.com/testdelfawebs/rest/",
     routerMode: false,
     publicPath: "/",
-    backend: false
+	contactMail: "contactoprosk@gmail.com",
+	contactPass: "pdukplxjgzssrhwq",
+	backend: false
 };
 
 /*
@@ -23,7 +25,9 @@ const test = {
 	apiUrl: "http://169.57.129.247:8080/ProskBackendBackend/rest/",
 	apiContactUrl: "https://testapps.desarrollodesoftwareamedida.com/testdelfawebs/rest/",
     routerMode: false,
-    publicPath: "/",
+	publicPath: "/",
+	contactMail: "contactoprosk@gmail.com",
+	contactPass: "pdukplxjgzssrhwq",
     backend: false
 };
 
@@ -45,9 +49,10 @@ const prod = {
 	// apiContactUrl: "http://158.85.5.171:8080/proskbackend/rest/",
 	apiUrl: "https://proskapp.com/proskbackend/rest/",
     apiContactUrl: "https://apps.delfasoft.com/delfawebs/rest/",
-
     routerMode: false,
-    publicPath: "/",
+	publicPath: "/",
+	contactMail: "contactoprosk@gmail.com",
+	contactPass: "pdukplxjgzssrhwq",
     backend: false
 }
 
@@ -79,7 +84,9 @@ module.exports = {
                 "process.env": {
                     API_URL: JSON.stringify(amb.apiUrl),
                     API_CONTACT_URL: JSON.stringify(amb.apiContactUrl),
-                    ROUTER_MODE: amb.routerMode,
+					ROUTER_MODE: amb.routerMode,
+					CONTACT_MAIL: JSON.stringify(amb.contactMail),
+					CONTACT_PASS: JSON.stringify(amb.contactPass),
                     BACKEND: amb.backend
                 }
             })

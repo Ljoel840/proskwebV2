@@ -1,6 +1,6 @@
 {
   "name": "prosk-web",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "env": "prod",
   "private": true,
   "scripts": {
@@ -8,8 +8,11 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
-    "axios": "^0.21.0",
+    "axios": "^0.21.1",
     "core-js": "^3.6.5",
+    "emailjs": "^3.4.0",
+    "emailjs-com": "^2.6.4",
+    "nodemailer": "^6.4.17",
     "swiper": "^6.3.5",
     "vue": "^2.6.11",
     "vue-awesome-swiper": "^4.1.1",

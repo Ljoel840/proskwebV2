@@ -1,16 +1,16 @@
 <template>
 	<div id="app">
-		<!-- <div class="cargando" v-if="datosPublicaciones.cargando && datosCategorias.cargando">
+		<div class="cargando" v-if="datosPublicaciones.cargando && datosCategorias.cargando">
 			<spinner-circular  v-if="datosPublicaciones.cargando && datosCategorias.cargando"/>
-		</div> -->
+		</div>
 
-		<!-- <menupc	v-if="!datosPublicaciones.cargando && !datosCategorias.cargando" />
+		<menupc	v-if="!datosPublicaciones.cargando && !datosCategorias.cargando" />
 		<router-view v-if="!datosPublicaciones.cargando && !datosCategorias.cargando"/>
-		<p_footer v-if="!datosPublicaciones.cargando && !datosCategorias.cargando"/> -->
-
+		<p_footer v-if="!datosPublicaciones.cargando && !datosCategorias.cargando"/>
+<!-- 
 		<menupc	 />
 		<router-view />
-		<p_footer />
+		<p_footer /> -->
 	</div>
 </template>
 <script>

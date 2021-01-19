@@ -2,7 +2,7 @@
 	<footer>
 		<div class="contenedor">
 			<div class="div1">
-				<h3>Nuestro soporte esta disponible en días laborales de 9:00 a 18:00 horas.</h3>
+				<h3>Nuestro soporte esta disponible en días laborales de 9:30 a 17:30 horas.</h3>
 				<span>
 					<div>
 						<img src="@/assets/img/i_direccion.png" alt="icono direccion" class="iconos">
@@ -24,9 +24,15 @@
 				<h3>Descargá la app desde tu PlayStore, AppStore o AppGallery</h3>
 				<br>
 				<span>
-					<img src="@/assets/img/i_playstore.png" alt="icono playstore" class="tiendas">
-					<img src="@/assets/img/i_appstore.png" alt="icono appstore" class="tiendas">
-					<img src="@/assets/img/i_appgallery.png" alt="icono appgallery" class="tiendas">
+					<a href="http://hyperurl.co/DescargarPROSK">
+						<img src="@/assets/img/i_playstore.png" alt="icono playstore" class="tiendas">
+					</a>
+					<a href="http://hyperurl.co/DescargarPROSK">
+						<img src="@/assets/img/i_appstore.png" alt="icono appstore" class="tiendas">
+					</a>
+					<a href="http://hyperurl.co/DescargarPROSK">
+						<img src="@/assets/img/i_appgallery.png" alt="icono appgallery" class="tiendas">
+					</a>
 				</span>
 			</div>
 		</div>

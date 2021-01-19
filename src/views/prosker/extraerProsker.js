@@ -9,9 +9,7 @@ export default (entrada) =>new Promise ((resolve, reject) => {
         } else if (!response.data.ErrorSDT) {
             reject('No hay retorno del ErrorSDT')
         } else if (response.data.ErrorSDT.ErrorCode === 0) {
-		
 			resolve(response.data.frontUsuarios)
-
         } else {
             reject(response.data.ErrorSDT.ErrorDescription)
         }

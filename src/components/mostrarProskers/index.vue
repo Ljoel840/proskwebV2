@@ -1,7 +1,7 @@
 <template>
 	<aside>
 		<div class="titulo">
-			<p>Proskers: {{proskers.cantidad}} </p>
+			<p>Proskers</p>
 		</div>
 		<div class="proskers">
 			<ul>
