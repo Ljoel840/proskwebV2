@@ -1,21 +1,21 @@
 <template>
-	<section>
+	<section >
 		<div class="fondoTitulo">
 			<!-- <h1>Blog</h1>
 			<h3>Aprende a ser más eficiente en Prosk</h3> -->
 		</div>
-		<div class="contenedorPrincipal">
-				<img :src="data.BlogPostHeaderImage" alt="Blog" class="fondoBlog">
+		<div class="contenedorPrincipal" v-if="data2">
+				<img :src="data2.BlogPostHeaderImage" alt="Blog" class="fondoBlog">
 				<div class="titulos">
-					<h1>{{data.BlogPostTitle}}</h1>
-					<h3>{{cambiarFecha(data.BlogPostDatePublished)}}</h3>
-				<button v-for="(b,index) in data.BlogPostTags" :key="index" class="tags" @click="ir('Blog',b.BlogTagId)">{{b.BlogTagName}}</button>
+					<h1>{{data2.BlogPostTitle}}</h1>
+					<h3>{{cambiarFecha(data2.BlogPostDatePublished)}}</h3>
+				<button v-for="(b,index) in data2.BlogPostTags" :key="index" class="tags" @click="ir('Blog',b.BlogTagId)">{{b.BlogTagName}}</button>
 				</div>
 			<div class="flag">
 			</div>
 			<div class="contenedor">
 				<!-- <img class="imgBlog" :src="data.imagen.url"> -->
-				<p class="textoBlog" v-html="data.BlogPostContent"></p>
+				<p class="textoBlog" v-html="data2.BlogPostContent"></p>
 			</div>
 			<h2>Otros temas que pueden interesarte</h2>
 			<button v-for="c in blogCategorias.datos" :key="c.idEnc" class="categorias"  @click="ir('Categoria Blog',c)">{{c.BlogCategoryName}}</button>
@@ -23,6 +23,7 @@
 	</section>
 </template>
 <script>
+import extraerBlog from "@/views/blog/extraerBlog"
 export default {
 	name: 'detalleBlog',
 	props:{
@@ -34,11 +35,34 @@ export default {
 		return {
 			error: null,
 			cargandoBlog: false,
-			options : { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour12:"false" }
+			options : { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour12:"false" },
+			titleBlog : this.$route.params.titleBlog,
+			data2 : {},
 		}
 	},
-	created() {
-		window.scrollTo(0, 0)
+	async created() {
+		try{
+			window.scrollTo(0, 0)
+			this.titleBlog=this.quitarGuiones(this.titleBlog)
+			if (this.data) {
+				this.data2=this.data
+			}else{
+				await extraerBlog({idEnc: ""})
+					.then(contenido =>{
+						contenido.forEach(element => {
+							if (element.BlogPostTitle.toLowerCase().includes(this.titleBlog)){
+								this.data2=element
+							}
+						});
+					}).catch(error => {
+						console.log(error)
+					})
+			}
+		}
+		catch (error){
+				this.error = error
+				console.log(this.error)
+			}	
 	},
 	computed: {
 		blogTags(){
@@ -47,6 +71,10 @@ export default {
 		blogCategorias(){
 			return this.$store.state.blogCategorias
 		},
+		blog(){
+			return this.$store.state.blog
+		},
+
 	},
 	methods: {
 		cambiarFecha(fecha2){
@@ -58,6 +86,9 @@ export default {
 				name: pag, 
 				params: {data}
 			}).catch(() => {})
+		},
+		quitarGuiones(nombre){
+			return nombre.replace(/-/g, " ").toLowerCase()
 		},
 	},
 
@@ -88,6 +119,7 @@ export default {
 		top: 0;
 		z-index: -1;
 		background-color: var(--a-color);
+		
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
@@ -199,7 +231,7 @@ export default {
 		width: 50%;
 		position: absolute;
 		margin: auto;
-		margin-top: -200px;
+		margin-top: -250px;
 		z-index: 10000;
 		color: #fff;
 		text-align: center;
@@ -234,7 +266,7 @@ export default {
 		text-transform: uppercase;
 	}
 
-	@media (max-width: 700px) {
+	@media (max-width: 800px) {
 		.contenedorPrincipal .titulos{
 			width: 90%;
 			left: 50vw;

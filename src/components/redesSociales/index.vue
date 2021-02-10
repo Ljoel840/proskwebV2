@@ -26,6 +26,19 @@ export default {
 			redes:true
 		}
 	},
+	mounted() {
+		if (this.ancho>550){
+			this.redes= true
+		}else{
+			this.redes=false
+		}
+	},
+	computed: {
+		ancho(){
+			return this.$store.state.ancho
+		},
+
+	},
 }
 </script>
 <style scoped>
@@ -33,7 +46,7 @@ export default {
 		width: 40px;
 		height: auto;
 		position: fixed;
-		top: 300px;
+		top: 150px;
 		left: 0;
 		margin: 0;
 		padding: 0;

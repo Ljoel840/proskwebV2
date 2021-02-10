@@ -12,8 +12,8 @@
 	</swiper-slide>
     
     <div class="swiper-pagination" slot="pagination"></div>
-	<div class="swiper-button-prev" slot="button-prev"></div>
-    <div class="swiper-button-next" slot="button-next"></div>
+	<div class="swiper-button-prev" slot="button-prev" v-if="ancho>500"></div>
+    <div class="swiper-button-next" slot="button-next" v-if="ancho>500"></div>
   </swiper>
 </template>
 
@@ -22,7 +22,7 @@ import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
 import 'swiper/swiper-bundle.css'
 
 export default {
-	name: 'sliderDestacados',
+	name: 'sliderDestacadosCel',
 	title: 'Multiple slides per view',
 	components: {
 		Swiper,
@@ -68,10 +68,10 @@ export default {
 					stopOnLastSlide: true,
 					delay: 3000
 					},
-				navigation: {
-					nextEl: '.swiper-button-next',
-					prevEl: '.swiper-button-prev'
-				},
+				// navigation: {
+				// 	nextEl: '.swiper-button-next',
+				// 	prevEl: '.swiper-button-prev'
+				// },
 			}
 		}
 	},
@@ -113,7 +113,6 @@ export default {
 		justify-content: center;
 		margin: 10px;
 		cursor: pointer;
-		
 	}
 
 
@@ -125,11 +124,10 @@ export default {
 		background-repeat: no-repeat;
 		border-radius: 100px;
 		border: 2px solid var(--b-color);
-		
 	}
 	
 	.texto{
-		width: 120px ;
+		width: 140px ;
 		height: 100px;
 		display: flex;
 		flex-direction: column;
@@ -160,6 +158,7 @@ export default {
 	
 		}
 	}
+
 
 	@media (max-width: 600px) {
 		.contenedorUsuario{

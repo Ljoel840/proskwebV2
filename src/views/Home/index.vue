@@ -1,31 +1,31 @@
 <template>
 	<article class="home">
-		<img alt="imagen Home" :src="slider[opcion].imagen" class="imagenHome">
+		<img alt="imagenHome" :src="slider[opcion].imagen" class="imagenHome">
 		<div class="fondo">
-			<div class="textoTitulo">
-				<h1 v-html="slider[opcion].titulo"></h1>
+			<div class="derecha">
+				<div class="textoTitulo">
+					<h1 v-html="slider[opcion].titulo"></h1>
+				</div>
+				<div class="buscar">
+					<buscar @opcion="seleccion($event)"/>
+				</div>
 			</div>
-			<div class="buscar">
-				<buscar @opcion="seleccion($event)"/>
-			</div>
+			<!-- <div class="izquierda" v-if="ancho>=900">
+				<mostrarProskers/>
+			</div> -->
 		</div>
 			<span class="botones">
 				<button v-for="(idx,index) in slider.length" :key="index" :style="opcion===index ? 'background-color:#fff': null" @click="opcion=index"></button>
 			</span>
 		<redesSociales/>
+		<!-- <div class="mostrarProskers" v-if="ancho<900">
+			<mostrarProskers/>
+		</div> -->
+		<proskerDestacados/>
 		<categorias />
-		<proskerDestacados />
 		<!-- <div class="espacio"></div> -->
 		<publicaciones :datos="datosPublicaciones.datos" v-if="!datosPublicaciones.cargando"/>
-		<div class="banner">
-			<div>
-				<h2>Trabajas de forma independiente, querés empezar a hacerlo o trabajas en relación de dependencia y querés tener ingresos extras/complementarios?</h2>
-				<h3>Querés manejar tus horarios? sos proactivo, innovador?, trabajas por tu cuenta y estás necesitando una red para contactar con nuevos clientes? Descargate Prosk, ármate tu perfil, publicá tus servicios y comenzá a ganar.</h3>
-				<br>
-				<button class="botonAceptar" @click="ir('Funcionamiento')">Conoce más</button>
-			</div>
-		</div>
-		<div class="banner2">
+		<!-- <div class="banner2">
 			<div class="div1">
 				<div>
 					<h2>Red Social de Trabajo y Negocios</h2>
@@ -34,6 +34,14 @@
 			</div>
 			<div class="div2">
 				<mostrarProskers/>
+			</div>
+		</div> -->
+		<div class="banner">
+			<div>
+				<h2>Trabajas de forma independiente, querés empezar a hacerlo o trabajas en relación de dependencia y querés tener ingresos extras/complementarios?</h2>
+				<h3>Querés manejar tus horarios? sos proactivo, innovador?, trabajas por tu cuenta y estás necesitando una red para contactar con nuevos clientes? Descargate Prosk, ármate tu perfil, publicá tus servicios y comenzá a ganar.</h3>
+				<br>
+				<button class="botonAceptar" @click="ir('Funcionamiento')">Conoce más</button>
 			</div>
 		</div>
 	</article>
@@ -90,6 +98,9 @@ export default {
 		datosPublicaciones () {
 			return this.$store.state.publicaciones
 		},
+		ancho(){
+			return this.$store.state.ancho
+		}
 	},
 
 	methods: {
@@ -141,7 +152,7 @@ export default {
 	}
 	.imagenHome{
 		width: 100%;
-		height: 570px;
+		height: 400px;
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -150,19 +161,29 @@ export default {
 		object-fit: cover;
 	}
 	.fondo{
-		width: 55%;
-		height: 400px;
-		padding-top: 100px;
-		flex-wrap: wrap;
+		width: 100%;
+		height: 280px;
+		padding-top: 20px;
+		display: flex;
+		flex-wrap: nowrap;
 		justify-content: flex-start;
 		align-items: center;
 		z-index: 1;
 		text-align: center;
 		/* background-color: red; */
-		margin-left: 100px;
 	}
 	.fondo div{
 		margin-bottom: 30px;
+	}
+	.fondo .derecha{
+		width: 60%;
+		justify-content: center;
+		margin-left: 6vw;
+	}
+	.fondo .izquierda{
+		width: 30%;
+		display: flex;
+		justify-content: flex-end;
 	}
 	.banner{
 		background-image: url('../../assets/img/banner.jpg');
@@ -232,7 +253,7 @@ export default {
 		margin: auto;
 		display: flex;
 		justify-content: center;
-		margin-top: -30px
+		margin-top: -10px
 	}
 	.botones button{
 		width: 10px;
@@ -253,16 +274,33 @@ export default {
 	}
 	.textoTitulo{
 		min-height: 120px;
-		display: flex;
-		align-items: center;
+		display: block;
+		/* align-items: center;
 		justify-content: center;
+		min-width: 100%; */
+	}
+	.mostrarProskers{
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		margin-top: 2em;
+	}
+
+	.categorias{
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
 	}
 	@media (max-width: 1000px) {
 		.fondo{
-			padding-top: 180px;
-			width: 70%;
+			padding-top: 100px;
+			/* width: 70%; */
 			margin: auto;
 			justify-content: center;
+		}
+		.derecha{
+			margin-left: 0;
 		}
 		h1{
 			margin-left: 0;
@@ -295,18 +333,49 @@ export default {
 			font-size: 1.2em;
 		}
 	}
-	@media (max-width: 550px) {
+
+	@media (max-width: 900px) {
 		.fondo{
-			padding-top: 180px;
-			width: 90%;
+			padding-top: 100px;
+			flex-wrap: wrap;
 			
 		}
+		.fondo .izquierda{
+			width: 100%;
+		}
+	}
+		
+	@media (max-width: 550px) {
+		.fondo{
+			padding-top: 100px;
+			width: 90%;
+		}
+		.fondo .derecha {
+			width: 100%;
+			margin-left: 0;
+		}
+
+		.derecha div{
+			width: 100%;
+		}
+	
 		.banner div{
 			margin: 0 10px;
 			text-align: center;
 		}
 		.div1 div{
 			margin: 10px;
+		}
+		.textoTitulo{
+			width: 100%;
+		}
+		.textoTitulo h1{
+			min-height: 160px;
+			font-size: 1.7em;
+			width: 100%;
+		}
+		.botones{
+			margin-top: 0;
 		}
 		
 	}

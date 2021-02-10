@@ -72,7 +72,7 @@ export default {
 			return this.$store.state.ancho
 		},
 		nSlides(){
-			return this.ancho>900 ? 14 : this.ancho>700 ? 9 : this.ancho>500 ? 7 : 4
+			return this.ancho>900 ? 14 : this.ancho>700 ? 9 : this.ancho>500 ? 7 : 5
 		},
 		swiperOption(){
 			return {
@@ -102,8 +102,9 @@ export default {
 
 <style scoped>
 .swiper-container {
-    width: 70%;
-    height: 100px;
+	margin-top: 1em;
+    width: 80%;
+    height: 80px;
 	/* padding-left: 20px; */
 	/* padding-right: 50px; */
 }
@@ -154,7 +155,7 @@ export default {
 } */
 .swiper-button-prev,.swiper-button-next{
 	width: 40px;
-	height: 100px;
+	height: 110px;
 	min-width: 22px;
 	background-color: #fff;
 	margin-top: -70px;

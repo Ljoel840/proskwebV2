@@ -4,25 +4,26 @@
 		</div>
 			<div class="busqueda">
 				<buscar  @opcion="seleccion($event)"/>
-			<h1>{{data.nombre}}</h1>
+			<h1>{{data2.nombre}}</h1>
 			</div>
 		<div class="cortina" v-if="mostrarMapa" @click="mostrarMapa=false"></div>
 		<mapa :latitude="miPosicion.posicion.coords.latitude" :longitude="miPosicion.posicion.coords.longitude" :title="miPosicion.titulo" @cerrar="mostrarMapa=false" :marcadores="marcadores" v-if="mostrarMapa"/>
 		<img src="@/assets/img/separador2.png" alt="separador" class="separador">
 		<span class="subcategorias">
 			<button :class="opc===null ? 'botonActivo' : null" @click="filtrarSubcategoria(null)">TODOS</button>
-			<button v-for="(d,index) in data.subcategoria" :key="index" :class="index == opc ? 'botonActivo' : null" @click="filtrarSubcategoria(index)">{{d.nombre}}</button>
+			<button v-for="(d,index) in data2.subcategoria" :key="index" :class="index == opc ? 'botonActivo' : null" @click="filtrarSubcategoria(index)">{{d.nombre}}</button>
 		</span>
 		<span class="contenedor">
-			<span class="ubicacion">
+			<span class="ubicacion" v-if="existe">
 				<button @click="mostrarMapa=true">
 					<img src="@/assets/img/i_ubicacion.png" alt="icono ubicacion">
 				</button>
 			</span>
 			<barra v-if="cargandoBusqueda" />
+			<span v-if="!existe" class="existe">No se encuentran publicaciones en esa Categoría</span>
 			<publicacion v-for="(d,index) in busqueda.datos" :key="index" :d="d"/>
 		</span>
-		<span class="contenedorBoton" v-if="!busqueda.cargando&&busqueda.hayMas">
+		<span class="contenedorBoton" v-if="!busqueda.cargando&&busqueda.hayMas && existe">
 			<button class="verMas" @click="cargarMas()"><i class="material-icons">expand_more</i></button>
 		</span>
 	</section>
@@ -52,14 +53,16 @@ export default {
 			fin: '',
 			cargandoBusqueda: false,
 			mostrarMapa: false,
-			subcategoria: ''
-			
+			subcategoria: '',
+			existe: true,
+			data2: {}
 		}
 	},
 	created() {
 		this.dataUsuario = this.data.idEnc
 		this.$store.commit('limpiarBusqueda')
 		this.extraer(this.dataUsuario,"","")
+		this.data2 = this.data
 	},
 	computed: {
 		busqueda(){
@@ -87,6 +90,7 @@ export default {
 		},
 		async extraer(idCat,idSub,inicio){
 			try {
+				this.existe = true
 				this.cargandoBusqueda = true
 				this.datos = await extraer({
 					idCatEnc:  idCat,
@@ -95,9 +99,14 @@ export default {
 				})
 				this.$store.commit('cargarBusqueda',this.datos)
 				this.cargandoBusqueda = false
+				
 
 			} catch (error) {
 				this.error = error
+				this.cargandoBusqueda = false
+				if (this.error==='Publicaciones no disponibles.') {
+					this.existe = false
+				}
 			}
 		},
 		cargarMas(){
@@ -113,6 +122,7 @@ export default {
 		seleccion(opc){
 			if (opc.tipo==='Categorias') {
 				this.dataUsuario = opc.datos.idEnc
+				this.data2 = opc.datos
 				this.$store.commit('limpiarBusqueda')
 				this.extraer(this.dataUsuario,"","")
 			}else{
@@ -253,6 +263,11 @@ export default {
 		min-width: 100%;
 		min-height: 100%;
 		background-color: rgba(0, 0, 0, .7);
+	}
+	.existe{
+		font-size: 2em;
+		font-weight: 800;
+		margin: 2em 0
 	}
 	@media (max-width: 1000px) {
 		.busqueda{

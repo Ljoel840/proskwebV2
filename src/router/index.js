@@ -74,7 +74,7 @@ const routes = [
 		props: true
 	},	
 	{
-		path: '/detalleBlog',
+		path: '/:titleBlog',
 		name: 'Detalle Blog',
 		component: () => import('../views/blog/detalleBlog'),
 		props: true

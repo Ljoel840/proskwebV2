@@ -114,7 +114,7 @@ export default {
 	section{
 		width: 100%;
 		text-align: center;
-		margin: 4em 0 0 0;
+		margin: 1em 0 0 0;
 	}
 	h1{
 		font-size: 2em;

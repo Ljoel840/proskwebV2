@@ -21,7 +21,8 @@
 					<h4>Uruguay</h4>
 				</div>
 			</div> -->
-			<sliderDestacados />
+			<sliderDestacados  v-if="ancho>600"/>
+			<sliderDestacadosCel v-else/>
 		</div>
 	</section>
 </template>
@@ -32,6 +33,7 @@ export default {
 		spinnerCircular: () => import('@/components/spinnerCircular'),
 		barra: () => import('@/components/barra'),
 		sliderDestacados: () => import('./sliderDestacados'),
+		sliderDestacadosCel: () => import('./sliderDestacadosCel'),
 	},
 	data() {
 		return {
@@ -62,6 +64,9 @@ export default {
 		proskersDestacados(){
 			return this.$store.state.proskersDestacados
 		},
+		ancho(){
+			return this.$store.state.ancho
+		}
 	},
 }
 </script>
@@ -69,6 +74,8 @@ export default {
 	section{
 		width: 100%;
 		height: auto;
+		margin-top: 1.5em;
+		margin-bottom: 1em;
 	}
 	h1{
 		font-size: 2em;

@@ -3,7 +3,9 @@
 		<div class="noLogueado" v-if="cortina && !usuario.ok"> 
 			<p>Para ver las publicaciones favor registrarse o loguearse</p>
 		</div>
-		<div class="fondo" :style="{ backgroundImage: 'url(' + d.imagen + ')' }" @click="ir('Publicacion',d)" v-if="d.imagen"></div>
+		<div :class="imgAncho(d.imagen)>imgAlto(d.imagen) ? 'fondo':'fondo2'" :style="{ backgroundImage: 'url(' + d.imagen + ')' }" @click="ir('Publicacion',d)" v-if="d.imagen"></div>
+		<!-- <div class="fondo" :style="{ backgroundImage: 'url(' + d.imagen + ')' }" @click="ir('Publicacion',d)" v-if="d.imagen"></div> -->
+
 		<video class="fondo" :src="d.video"  @click="ir('Publicacion',d)" v-else></video>
 		<div class="descripcion">
 			<p>{{d.descripcion}}</p>
@@ -43,6 +45,17 @@ export default {
 		}
 	},
 	methods: {
+		imgAncho(imagen){
+			var img1 = new Image()
+			img1.src = imagen
+			return img1.width
+		},
+		imgAlto(imagen){
+			var img1 = new Image()
+			img1.src = imagen
+			return img1.height
+		},
+
 		ir (pag,data) {
 			// e.preventDefault()
 			this.$router.push({
@@ -67,15 +80,23 @@ export default {
 	.fondo{
 		width: 100%;
 		height: 200px;
-		background-size: 320px auto ;
+		background-size: 100% auto ;
 		background-position: center;
 		background-repeat: no-repeat;
 		display: flex;
 		justify-content: center;
 		align-items: flex-end;
-		
 	}
-
+	.fondo2{
+		width: 100%;
+		height: 200px;
+		background-size: auto 100% ;
+		background-position: center;
+		background-repeat: no-repeat;
+		display: flex;
+		justify-content: center;
+		align-items: flex-end;
+	}
 
 	.contenedor div img{
 		width: 100%;

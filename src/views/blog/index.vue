@@ -79,11 +79,18 @@ export default {
 			return fecha.toLocaleDateString('es-ES',this.options);
 		},
 		ir (pag,data) {
+			var titleBlog = ''
+			if (pag==='Detalle Blog') {
+				titleBlog=this.quitarEspacios(data.BlogPostTitle)
+			}
 			this.$router.push({
 				name: pag, 
-				params: {data}
+				params: {data,titleBlog}
 			}).catch(() => {})
 		},
+		quitarEspacios(nombre){
+			return nombre.replace(/ /g, "-").toLowerCase()
+		}
 	},
 }
 </script>

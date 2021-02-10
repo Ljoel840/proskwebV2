@@ -5,6 +5,7 @@
 			<spinner-circular  v-if="datosCategorias.cargando"/>
 		</div>
 		<span class="contenedor" v-if="!datosCategorias.cargando">
+			<h2>Categorías</h2>
 			<!-- <div v-for="index in 10" :key="index" class="dcategorias">
 				<img class="imagen" :src="datosCategorias.datos[index].icon" alt="imagenes categorias">
 				<span>
@@ -67,19 +68,25 @@ export default {
 	section{
 		width: 100%;
 		text-align: center;
-		margin: 3em 0;
+		margin: 1em 0;
 		/* background-color: var(--d-color); */
 	}
 	h1{
 		font-size: 1.5em;
 		color: var(--a-color)
 	}
+	h2{
+		font-size: 2em;
+		text-align: left;
+		
+	}
 	.contenedor{
-		width: 100%;
+		width: 90%;
 		margin: auto;
 		display: flex;
-		justify-content: center;
+		justify-content: flex-start;
 		flex-wrap: wrap;
+		align-items: center;
 	}
 
 	.cargando {

@@ -193,7 +193,7 @@ export default {
 	@media (max-width: 450px) {
 
 		.buscar{
-			min-width: 250px
+			min-width: 200px
 		}
 		/* .contenedor{
 			position: relative;
