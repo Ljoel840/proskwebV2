@@ -19,9 +19,10 @@
 			<p>|</p>
 			<a @click="ir('Proskers')" class="menu">PROSKERS</a>
 			<p>|</p>
-			<a @click="ir('Academy')" class="menu">PROSK ACADEMY</a>
+			<a @click="ir('Academy2')" class="menu">PROSK ACADEMY</a>
 			<p>|</p>
 			<a @click="ir('Blog')" class="menu">BLOG</a>
+			<!-- <a :href="`${urlPrincipal}/blog/#/`" class="menu">BLOG</a> -->
 			<p>|</p>
 			<a @click="ir('Contacto')" class="menu">CONTACTO</a>
 		</nav>
@@ -58,6 +59,9 @@ export default {
 	},
 	
 	computed: {
+		urlPrincipal(){
+			return window.location.origin
+		},
 		usuario () {
 			return this.$store.state.usuario
 		},
@@ -78,8 +82,10 @@ export default {
 		},
 		conversaciones(){
 			return this.$store.state.conversaciones
+		},
+		academy(){
+			return this.$store.state.academy
 		}
-
 		
 	},
 	
@@ -88,13 +94,20 @@ export default {
 			this.tiempo = setInterval(()=>this.verNuevosMensajes(), 10000*this.intervalo);
 		},
 		ir (pag,para) {
+			let titleAcademy= ''
 			if (this.ancho<1000) {
 				this.mostrarMenu=false
 			}
+			if (pag==='Academy') {
+				titleAcademy=this.quitarEspacios(this.academy.datos[0].VideoPostTitle)
+			}
 			this.$router.push({
 				name: pag, 
-				params: para
+				params: {para,titleAcademy}
 			}).catch(() => {})
+		},
+		quitarEspacios(nombre){
+			return nombre.replace(/ /g, "-").toLowerCase()
 		},
 		salir (e) {
             e.preventDefault()
@@ -247,7 +260,7 @@ export default {
 		color: #fff;
 	}
 	.botonSalir h4{
-		font-size: 1em;
+		font-size: .7em;
 		text-shadow: 2px 2px 8px rgb(88, 88, 88);
 	}
 	.botonSalir i{

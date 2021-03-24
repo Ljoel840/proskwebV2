@@ -24,6 +24,9 @@ Vue.use(VueGoogleMaps, {
 	},
   });
 
+//--- Vue-Meta ---
+import VueMeta from 'vue-meta'
+Vue.use(VueMeta)
 
 
 
@@ -37,6 +40,7 @@ new Vue({
   store,
   render: h => h(App),
   mounted () {
+	this.$store.dispatch('usuario/local'),
 	window.addEventListener('resize', () => {
 		this.$store.commit('cambiarAncho')
 	}, true),
@@ -48,6 +52,7 @@ new Vue({
 	this.$store.commit('cargarTagsBlog'),
 	this.$store.commit('setearHora'),
 	this.$store.commit('cargarPosicion'),
+	this.$store.commit('cargarVideosAcademy'),
 	setInterval(() => {
 		this.$store.commit('setearHora')
 	}, 8000)

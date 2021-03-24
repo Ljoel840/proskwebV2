@@ -1,28 +1,35 @@
 <template>
 	<section>
 		<div class="fondoTitulo">
-			<span class="busqueda">
+			<div class="busqueda">
 				<buscar/>
-			</span>
+			</div>
 		</div>
 		<img src="@/assets/img/separador2.png" alt="separador" class="separador">
 		<barra v-if="cargandoProsker"/>
-		<div class="contenedorPrincipal" v-if="!cargandoProsker&&datos.length>0">
-			<div class="contenedorUsuario" @click="ir('Prosker',datos[0].idEnc)">
-				<div class="foto" :style="{ backgroundImage: 'url(' + datos[0].foto + ')' }"></div>
-				<div class="datos">
-					<h2>{{datos[0].nombre}}</h2>
-					<h3>{{datos[0].pais}}</h3>
+		<div class="contenedorPublicidad">
+			<div class="pub1">
+				<div class="contenedorPrincipal" v-if="!cargandoProsker&&datos.length>0">
+					<div class="contenedorUsuario" @click="ir('Prosker',datos[0].idEnc)">
+						<div class="foto" :style="{ backgroundImage: 'url(' + datos[0].foto + ')' }"></div>
+						<div class="datos">
+							<h2>{{datos[0].nombre}}</h2>
+							<h3>{{datos[0].pais}}</h3>
+						</div>
+					</div>
+					<div class="contenedorPublicacion">
+						<div class="publicacion">
+							<img :src="data.imagen" alt="publicacion prosk">
+						</div>
+						<div class="descripcion">
+							<h3>{{data.categoria}}</h3>
+							<h4>{{data.descripcion}}</h4>
+						</div>
+					</div>
 				</div>
 			</div>
-			<div class="contenedorPublicacion">
-				<div class="publicacion">
-					<img :src="data.imagen" alt="publicacion prosk">
-				</div>
-				<div class="descripcion">
-					<h3>{{data.categoria}}</h3>
-					<h4>{{data.descripcion}}</h4>
-				</div>
+			<div class="pub2">
+				<publicidad300x250 />
 			</div>
 		</div>
 	</section>
@@ -39,7 +46,8 @@ export default {
 	},
 	components: {
 		barra: () => import('@/components/barra'),
-		buscar: () => import('@/components/buscar')
+		buscar: () => import('@/components/buscar'),
+		publicidad300x250: () => import('@/components/adsense/publicidad300x250'),
 	},
 	data() {
 		return {
@@ -111,6 +119,11 @@ export default {
 		flex-wrap: wrap;
 		padding-top: 3em;
 	}
+	.busqueda {
+		width: 100%;
+		padding: 2em 0;
+		
+	}
 	.separador{
 		margin-top: 140px;
 		width: 100%;
@@ -145,6 +158,9 @@ export default {
 	.datos{
 		padding-left: 30px;
 	}
+	.contenedorPublicacion{
+		width: 100%;
+	}
 
 	.publicacion{
 		width: 100%;
@@ -160,5 +176,65 @@ export default {
 
 	.descripcion{
 		width: auto;
+	}
+	.contenedorPublicidad {
+		display: grid;
+		grid-template-columns: 1fr 310px;
+		grid-template-rows: 1fr;
+		grid-column-gap: 0px;
+		grid-row-gap: 0px;
+	}
+
+	.pub1 { grid-area: 1 / 1 / 2 / 2; }
+	.pub2 { grid-area: 1 / 2 / 2 / 3; }
+
+	@media (max-width: 1000px) {
+		.fondoTitulo{
+			height: 140px;
+			padding-top: 20px ;
+		}
+		.contenedorPrincipal{
+			margin-top: 50px;
+			width: 100%;
+			padding: 0 10px;
+		}
+		h1{
+			margin: 0;
+		}
+		.separador{
+			margin-top: 160px;
+		}
+		.busqueda {
+			min-height: 50px;
+			margin: 3em 0 0 0;
+		}
+		.busqueda *{
+			margin-left: 25% ;
+		}
+	}
+
+
+
+	@media (max-width:600px) {
+		.busqueda{
+			margin-left: 15% ;
+		}
+		.publicacion{
+			width:100%;
+			height: auto;
+		}
+		.publicacion img{
+			width:100%;
+			height: auto;
+		}
+
+		.contenedorPublicidad {
+			grid-template-columns: 1fr;
+			grid-template-rows: 1fr 260px;
+		}
+
+	.pub1 { grid-area: 1 / 1 / 2 / 2; }
+	.pub2 { grid-area: 2 / 1 / 3 / 2; }
+		
 	}
 </style>

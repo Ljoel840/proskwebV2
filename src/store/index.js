@@ -10,6 +10,7 @@ import extraerTagsBlog from '../views/blog/extraerBlogTags'
 import extraerBlog from "../views/blog/extraerBlog"
 import extraerConversaciones from '../components/chat/extraerConversaciones'
 import extraerMensajes from '../components/chat/extraerMensajes'
+import extraerAcademy from "../views/academy/extraerAcademy"
 
 Vue.use(Vuex)
 
@@ -88,7 +89,12 @@ export default new Vuex.Store({
 			titulo: 'YO',
 			obtenerPosicion: false
 		},
-		marcadores:[]
+		marcadores:[],
+		academy:{
+			datos:[],
+			error: null,
+			cargando: true
+		},
 		
 	},
 	mutations: {
@@ -314,7 +320,16 @@ export default new Vuex.Store({
 				})
 			}
 
-		}
+		},
+		cargarVideosAcademy(state){
+			extraerAcademy({idEnc: ""})
+			.then(contenido =>{
+				state.academy.datos = contenido
+				state.academy.cargando = false
+			}).catch(error => {
+				state.academy.error = error
+			})
+		},
 
 	},
 	actions: {

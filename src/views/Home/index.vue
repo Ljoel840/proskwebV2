@@ -21,10 +21,20 @@
 		<!-- <div class="mostrarProskers" v-if="ancho<900">
 			<mostrarProskers/>
 		</div> -->
+		<publicidad728x90 v-if="ancho>730"/>
 		<proskerDestacados/>
 		<categorias />
+		<publicidad300x250 v-if="ancho<=730"/>
 		<!-- <div class="espacio"></div> -->
-		<publicaciones :datos="datosPublicaciones.datos" v-if="!datosPublicaciones.cargando"/>
+		<div class="contenedorPublicidad">
+			<div class="pub1">
+				<publicaciones :datos="datosPublicaciones.datos" v-if="!datosPublicaciones.cargando"/>
+
+			</div>
+			<div class="pub2" v-if="ancho>550">
+				<publicidad160x600/>
+			</div>
+		</div>
 		<!-- <div class="banner2">
 			<div class="div1">
 				<div>
@@ -36,13 +46,25 @@
 				<mostrarProskers/>
 			</div>
 		</div> -->
-		<div class="banner">
-			<div>
-				<h2>Trabajas de forma independiente, querés empezar a hacerlo o trabajas en relación de dependencia y querés tener ingresos extras/complementarios?</h2>
-				<h3>Querés manejar tus horarios? sos proactivo, innovador?, trabajas por tu cuenta y estás necesitando una red para contactar con nuevos clientes? Descargate Prosk, ármate tu perfil, publicá tus servicios y comenzá a ganar.</h3>
-				<br>
-				<button class="botonAceptar" @click="ir('Funcionamiento')">Conoce más</button>
+		<publicidad728x90 v-if="ancho>730"/>
+		<div class="contenedorPublicidad2">
+			<div class="pub21">
+				<div class="banner">
+					<div>
+						<h2>Trabajas de forma independiente, querés empezar a hacerlo o trabajas en relación de dependencia y querés tener ingresos extras/ complementarios?</h2>
+						<h3>Querés manejar tus horarios? sos proactivo, innovador?, trabajas por tu cuenta y estás necesitando una red para contactar con nuevos clientes? Descargate Prosk, ármate tu perfil, publicá tus servicios y comenzá a ganar.</h3>
+						<br>
+						<button class="botonAceptar" @click="ir('Funcionamiento')">Conoce más</button>
+					</div>
+				</div>
+
 			</div>
+			<div class="pub22">
+				<publicidad300x250/>	
+			</div>
+		</div>
+		<div class="contenedorPublicidad3">
+			<publicidad320x50 v-if="ancho<=550"/>
 		</div>
 	</article>
 </template>
@@ -58,7 +80,10 @@ export default {
 		proskerDestacados: () => import('@/components/proskersDestacados'),
 		mostrarProskers: () => import('@/components/mostrarProskers'),
 		redesSociales: () => import('@/components/redesSociales'),
-
+		publicidad728x90: () => import('@/components/adsense/publicidad728x90'),
+		publicidad300x250: () => import('@/components/adsense/publicidad300x250'),
+		publicidad160x600: () => import('@/components/adsense/publicidad160x600'),
+		publicidad320x50: () => import('@/components/adsense/publicidad320x50'),
 
 
 	},
@@ -152,7 +177,7 @@ export default {
 	}
 	.imagenHome{
 		width: 100%;
-		height: 400px;
+		height: 380px;
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -163,11 +188,11 @@ export default {
 	.fondo{
 		width: 100%;
 		height: 280px;
-		padding-top: 20px;
+		/* padding-top: 20px; */
 		display: flex;
 		flex-wrap: nowrap;
 		justify-content: flex-start;
-		align-items: center;
+		align-items: flex-start;
 		z-index: 1;
 		text-align: center;
 		/* background-color: red; */
@@ -192,7 +217,7 @@ export default {
 		background-repeat: no-repeat;
 		width: 100%;
 		min-height: 500px;
-		margin-top:-80px;
+		/* margin-top:-80px; Activar cuando no haya publicidad */
 		z-index: -1;
 		display: flex;
 		justify-content: flex-end;
@@ -248,12 +273,50 @@ export default {
 		font-weight: 200;
 		line-height: 1.5;
 	}
+	.contenedorPublicidad {
+		display: grid;
+		grid-template-columns: 1fr 180px;
+		grid-template-rows: 1fr;
+		grid-column-gap: 0px;
+		grid-row-gap: 0px;
+	}
+
+	.pub1 { grid-area: 1 / 1 / 2 / 2; }
+	.pub2 { grid-area: 1 / 2 / 2 / 3; }
+	.pub2{
+		padding-top: 3em;
+	}
+
+	.contenedorPublicidad2 {
+		display: grid;
+		grid-template-columns: 1fr 310px;
+		grid-template-rows: 1fr;
+		grid-column-gap: 0px;
+		grid-row-gap: 0px;
+	}
+
+	.pub21 { grid-area: 1 / 1 / 2 / 2; }
+	.pub22 { grid-area: 1 / 2 / 2 / 3; }
+
+	.pub22 { 
+		background-color: var(--d-color); 
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	.contenedorPublicidad3{
+		position: -webkit-sticky;
+		position: sticky;
+		bottom: 0;
+	}
+
 	.botones{
 		width: 100%;
 		margin: auto;
 		display: flex;
 		justify-content: center;
-		margin-top: -10px
+		margin-top: -10px;
+		margin-bottom: 20px;
 	}
 	.botones button{
 		width: 10px;
@@ -273,8 +336,9 @@ export default {
 		min-height: 20vh
 	}
 	.textoTitulo{
-		min-height: 120px;
+		min-height: 100px;
 		display: block;
+		padding-top: 10px;
 		/* align-items: center;
 		justify-content: center;
 		min-width: 100%; */
@@ -358,9 +422,11 @@ export default {
 		.derecha div{
 			width: 100%;
 		}
-	
+		.banner{
+			width: 100%;
+		}
 		.banner div{
-			margin: 0 10px;
+			margin: 0;
 			text-align: center;
 		}
 		.div1 div{
@@ -377,7 +443,18 @@ export default {
 		.botones{
 			margin-top: 0;
 		}
-		
+		.contenedorPublicidad {
+			grid-template-columns: 1fr;
+			grid-template-rows: 1fr 5px;
+		}
+		.pub1 { grid-area: 1 / 1 / 2 / 2; }
+		.pub2 { grid-area: 2 / 1 / 3 / 2; }
+		.contenedorPublicidad2 {
+			grid-template-columns: 100%;
+			grid-template-rows: 1fr 260px;
+		}
+		.pub21 { grid-area: 1 / 1 / 2 / 2; }
+		.pub22 { grid-area: 2 / 1 / 3 / 2; }
 	}
 	@media (max-width: 1200px) {
 		.banner{

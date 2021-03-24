@@ -1,113 +1,98 @@
 <template>
-	<section >
+	<section>
 		<div class="fondoTitulo">
-			<!-- <h1>Blog</h1>
+			<!-- <h1>video</h1>
 			<h3>Aprende a ser más eficiente en Prosk</h3> -->
 		</div>
-		<div class="contenedorPrincipal" v-if="data2">
-				<img :src="data2.BlogPostHeaderImage" alt="Blog" class="fondoBlog">
-				<div class="titulos">
-					<h1>{{data2.BlogPostTitle}}</h1>
-					<h3>{{cambiarFecha(data2.BlogPostDatePublished)}}</h3>
-				<button v-for="(b,index) in data2.BlogPostTags" :key="index" class="tags" @click="ir('Blog',b.BlogTagId)">{{b.BlogTagName}}</button>
-				</div>
+		<div class="contenedorPrincipal">
+			<img src="@/assets/img/f_academy.jpg" alt="video" class="fondovideo">
+			<div class="titulos">
+				<h1>Prosk Academy</h1>
+				<h3>Aprende a ser más eficiente en Prosk</h3>
+			</div>
 			<div class="flag">
 			</div>
-			<div class="contenedor">
-				<!-- <img class="imgBlog" :src="data.imagen.url"> -->
-				<p class="textoBlog" v-html="data2.BlogPostContent"></p>
+			<div class="contenedor" v-if="!academy.cargando">
+				<h2 class="noDatos" v-if="academy.datos.length<=0">No hay Datos</h2>
+				<div class="videos" v-for="(d,index) in academy.datos" :key="index">
+					<iframe class="tipo" width="100%" height="315" :src="cambiarUrl(d.VideoPostUrl)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen v-if="d.VideoPostType===1"></iframe>
+					<video class="tipo" width="100%" height="315" :src="d.VideoPostUrl" v-else controls ></video>
+					<!-- <p class="fechavideo">{{cambiarFecha(d.videoPostDatePublished)}}</p> -->
+					<h3 class="titulovideo"><strong>{{d.VideoPostTitle}}</strong></h3>
+				</div>
 			</div>
-			<h2>Otros temas que pueden interesarte</h2>
-			<button v-for="c in blogCategorias.datos" :key="c.idEnc" class="categorias"  @click="ir('Categoria Blog',c)">{{c.BlogCategoryName}}</button>
 		</div>
 	</section>
 </template>
 <script>
-import extraerBlog from "@/views/blog/extraerBlog"
 export default {
-	name: 'detalleBlog',
+	name: 'Academy2',
 	props:{
-		data: {
-			type: Object
+		data:{
+			type: String,
+			default: null
 		}
 	},
 	data() {
 		return {
 			error: null,
-			cargandoBlog: false,
+			cargandovideo: false,
+			datos: [],
 			options : { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour12:"false" },
-			titleBlog : this.$route.params.titleBlog,
-			titleBlog2 : this.$route.params.titleBlog,
-			data2 : {},
-
+			prueba:[],
+			opcion: null,
+			mostrar: false,
+			posicion: 0,
+			rutaEmbed: 'https://www.youtube.com/embed/',
+			titulo: this.$route.params.titleAcademy
 		}
 	},
-	metaInfo() {
-        return {
-            title: `Prosk - ${this.titleBlog}`,
-            meta: [
-                {name: 'description', content: 'Blog: ' + this.titleBlog + ' en Prosk '},
-                {property: 'og:title', content: 'Prosk - ' + this.titleBlog},
-                {property: 'og:site_name', content: 'Prosk'},
-                {property: 'og:description', content: 'Blog: ' + this.titleBlog + ' en Prosk '},
-                {property: 'og:type', content: 'article'},
-                {property: 'og:url', content: 'https://prosk.org/#/' + this.titleBlog2},
-                {property: 'og:image', content: this.data2.BlogPostHeaderImage }    
-            ]
-        }
-    },
-	async created() {
-		try{
-			window.scrollTo(0, 0)
-			this.titleBlog=this.quitarGuiones(this.titleBlog)
-			if (this.data) {
-				this.data2=this.data
-			}else{
-				await extraerBlog({idEnc: ""})
-					.then(contenido =>{
-						contenido.forEach(element => {
-							if (element.BlogPostTitle.toLowerCase().includes(this.titleBlog)){
-								this.data2=element
-							}
-						});
-					}).catch(error => {
-						console.log(error)
-					})
-			}
+	created() {
+		window.scrollTo(0, 0)
+		if (this.academy.cargando){
+			this.$store.commit('cargarVideosAcademy')
 		}
-		catch (error){
-				this.error = error
-				console.log(this.error)
-			}	
+		this.opcion=this.data
 	},
 	computed: {
-		blogTags(){
-			return this.$store.state.blogTags
+		ancho(){
+			return this.$store.state.ancho
 		},
-		blogCategorias(){
-			return this.$store.state.blogCategorias
+		alto(){
+			return this.ancho*(this.ancho>1000 ? 0.7 : 0.9)*0.56
 		},
-		blog(){
-			return this.$store.state.blog
+		anterior(){
+			return this.posicion>0 ? this.posicion-- : 0
 		},
-
+		siguiente(){
+			return this.posicion<this.academy.datos.length ? this.posicion++ : 0
+		},
+		academy(){
+			return this.$store.state.academy
+		}
 	},
 	methods: {
+		cambiarUrl(url){
+			return this.rutaEmbed+url.slice(url.indexOf('watch?v=')+8)
+		},
 		cambiarFecha(fecha2){
 			let fecha = new Date(fecha2);
 			return fecha.toLocaleDateString('es-ES',this.options);
 		},
-		ir(pag,data){
+		ir (pag,data) {
+			var titlevideo = ''
+			if (pag==='Detalle video') {
+				titlevideo=this.quitarEspacios(data.videoPostTitle)
+			}
 			this.$router.push({
 				name: pag, 
-				params: {data}
+				params: {data,titlevideo}
 			}).catch(() => {})
 		},
-		quitarGuiones(nombre){
-			return nombre.replace(/-/g, " ").toLowerCase()
-		},
+		quitarEspacios(nombre){
+			return nombre.replace(/ /g, "-").toLowerCase()
+		}
 	},
-
 }
 </script>
 <style scoped>
@@ -122,6 +107,14 @@ export default {
 		font-weight: 800;
 		margin-top: 1.5em;
 	}
+	h2{
+		font-size: 2em;
+		color: var(--c-color);
+		font-weight: 800;
+		padding: 1em 0;
+		/* text-align: left;
+		margin-left: 10vw; */
+	}
 	h3{
 		margin-top: .5em;
 		font-size: 1.5em;
@@ -135,7 +128,6 @@ export default {
 		top: 0;
 		z-index: -1;
 		background-color: var(--a-color);
-		
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
@@ -154,63 +146,72 @@ export default {
 		background-color: var(--d-color);
 		/* margin-top: 100px; */
 		text-align: center;
-		padding-bottom: 3em ;
+		padding-bottom: 3em;
 	}
 	.contenedor {
-		width: 95%;
-		max-width: 900px;
+		width: 100%;
 		margin: 2em auto 0 ;
 		padding: 2em 0 4em;
 		
 		/* column-count: 2;
         column-gap: 2em; */
-		/* display: flex;
-		justify-content: space-around;	 */
+		display: flex;
+		justify-content: space-around;	
 		text-align: justify;	
+		flex-wrap: wrap;
 	}
-	.fechaBlog  {
+	.fechavideo  {
 		padding: 10px 0;
 		margin: 0;
 		color: #a8a8a8
 	}
 
-	.tituloBlog{
+	.titulovideo{
 		color: var(--a-color);
 	}
-	.textoBlog  {
+	.textovideo  {
 		padding: 5px 0;
-		line-height: 1.5;
+		
+	}
+	.noDatos{
+		margin-top: .5em;
+		font-size: 2em;
+		color: var(--a-color);
+		font-weight: 800;
+		text-align: center;
 	}
 
-	.imgBlog {
-		width: 100%;
+	.imgvideo {
+		width: 95%;
 		height: 200px;
 		margin: 5px;
 		border: 2px solid var(--d-color);
 		border-radius: 7px;
 		box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-		object-fit: fill;
+		object-fit: cover;
 		cursor: pointer;
 	}
-	.blogs {
+	.videos {
 		width: 100%;
 		max-width: 450px;
+		padding: 20px;
+	}
+	.videos h3{
+		text-shadow: none
 	}
 
-	.blogs button{
+	.videos button{
 		float: right;
 		width: 100px;
 		padding: 10px;
 	}
 
-	.imgBlog:hover{
+	.imgvideo:hover{
 		opacity: .5;
 		text-decoration: none;
 	}
-	.fondoBlog{
+	.fondovideo{
 		width: 100%;
-		max-width: 900px;
-
 		height: 300px;
 		object-fit: cover;
 		margin: auto;
@@ -260,15 +261,13 @@ export default {
 		text-shadow: 0 0 7px rgb(97, 97, 97)
 	}
 	.tags{
-		background-color: var(--f-color);
+		background-color: var(--c-color);
 		color: var(--e-color);
-		padding: 7px 10px;
-		margin: 2px;
+		padding: 10px;
+		margin: 5px;
 		border: none;
 		outline: none;
 		cursor: pointer;
-		border-radius: 7px;
-		font-size: .6em;
 	}
 	.categorias{
 		background-color: var(--h-color);
@@ -282,12 +281,16 @@ export default {
 		text-transform: uppercase;
 	}
 
-	@media (max-width: 800px) {
+	@media (max-width: 700px) {
 		.contenedorPrincipal .titulos{
 			width: 90%;
 			left: 50vw;
 			margin-left: -45vw;
-			margin-top: -200px;
+			margin-top: -220px;
+		}
+		.videos {
+			width: 100%;
+			max-width: 350px;
 		}
 		.titulos h1{
 			font-size: 2em;
@@ -296,5 +299,4 @@ export default {
 			font-size: 1.4em;
 		}
 	}
-
 </style>

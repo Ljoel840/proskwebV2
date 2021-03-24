@@ -33,19 +33,19 @@ const routes = [
 		component: () => import('@/views/s_usuario'),
 	},
 	{
-		path: '/academy',
+		path: '/academy/:titleAcademy',
 		name: 'Academy',
 		component: () => import('@/views/academy'),
+	},
+	{
+		path: '/academy',
+		name: 'Academy2',
+		component: () => import('@/views/academy2'),
 	},
 	{
 		path: '/contacto',
 		name: 'Contacto',
 		component: () => import('@/views/contacto'),
-	},
-	{
-		path: '/contacto2',
-		name: 'Contacto2',
-		component: () => import('@/views/contacto2'),
 	},
 	{
 		path: '/quienes',
@@ -67,6 +67,12 @@ const routes = [
 		name: 'Proskers',
 		component: () => import('@/views/proskers'),
 	},	
+	{
+		path: '/registro',
+		name: 'Registro',
+		component: () => import('../views/registro'),
+		props: true
+	},
 	{
 		path: '/blog',
 		name: 'Blog',

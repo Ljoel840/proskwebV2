@@ -88,7 +88,7 @@ export default {
 		margin: 5px
 	}
 	label input{
-		width: 18	0px;
+		width: 180px;
 		height: 30px;
 		border: none;
 		background-color: var(--d-color);

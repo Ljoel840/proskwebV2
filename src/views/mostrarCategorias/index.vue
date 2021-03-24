@@ -9,11 +9,17 @@
 		<div class="cortina" v-if="mostrarMapa" @click="mostrarMapa=false"></div>
 		<mapa :latitude="miPosicion.posicion.coords.latitude" :longitude="miPosicion.posicion.coords.longitude" :title="miPosicion.titulo" @cerrar="mostrarMapa=false" :marcadores="marcadores" v-if="mostrarMapa"/>
 		<img src="@/assets/img/separador2.png" alt="separador" class="separador">
+		<publicidad728x90/>
 		<span class="subcategorias">
 			<button :class="opc===null ? 'botonActivo' : null" @click="filtrarSubcategoria(null)">TODOS</button>
 			<button v-for="(d,index) in data2.subcategoria" :key="index" :class="index == opc ? 'botonActivo' : null" @click="filtrarSubcategoria(index)">{{d.nombre}}</button>
 		</span>
-		<span class="contenedor">
+		<div class="contenedorPrincipal">
+			<div class="div1">
+				<publicidad160x600 v-if="ancho>600"/>
+				<publicidad300x250 v-if="ancho<=600"/>
+			</div>
+		<span class="contenedor div2">
 			<span class="ubicacion" v-if="existe">
 				<button @click="mostrarMapa=true">
 					<img src="@/assets/img/i_ubicacion.png" alt="icono ubicacion">
@@ -22,10 +28,15 @@
 			<barra v-if="cargandoBusqueda" />
 			<span v-if="!existe" class="existe">No se encuentran publicaciones en esa Categoría</span>
 			<publicacion v-for="(d,index) in busqueda.datos" :key="index" :d="d"/>
+			<span class="contenedorBoton" v-if="!busqueda.cargando&&busqueda.hayMas && existe">
+				<button class="verMas" @click="cargarMas()"><i class="material-icons">expand_more</i></button>
+			</span>
 		</span>
-		<span class="contenedorBoton" v-if="!busqueda.cargando&&busqueda.hayMas && existe">
-			<button class="verMas" @click="cargarMas()"><i class="material-icons">expand_more</i></button>
-		</span>
+		<div class="div3">
+			<publicidad160x600 v-if="ancho>600"/>
+			<publicidad300x250 v-if="ancho<=600"/>
+		</div>
+		</div>
 	</section>
 </template>
 <script>
@@ -42,7 +53,11 @@ export default {
 		barra: () => import('@/components/barra'),
 		buscar: () => import('@/components/buscar'),
 		publicacion: () => import('@/components/publicaciones/publicacion'),
-		mapa: () => import('@/components/googleMap')
+		mapa: () => import('@/components/googleMap'),
+		publicidad728x90: () => import('@/components/adsense/publicidad728x90'),
+		publicidad160x600: () => import('@/components/adsense/publicidad160x600'),
+		publicidad300x250: () => import('@/components/adsense/publicidad300x250'),
+
 	},
 	data() {
 		return {
@@ -65,6 +80,10 @@ export default {
 		this.data2 = this.data
 	},
 	computed: {
+		ancho(){
+			return this.$store.state.ancho
+		},
+
 		busqueda(){
 			return this.$store.state.busqueda
 		},
@@ -140,7 +159,7 @@ export default {
 		min-height: 85vh;
 	}
 	h1{
-		font-size: 3em;
+		font-size: 2em;
 		color: var(--d-color);
 		font-weight: 800;
 		margin-top: 1em;
@@ -160,9 +179,10 @@ export default {
 		padding-top: 3em;
 	}
 	.separador{
-		margin-top: -40px;
+		margin-top: -30px;
+		height: 50px;
 		width: 100%;
-		height: auto;
+		/* height: auto; */
 		background-color: transparent;
 		border: none;
 	}
@@ -190,8 +210,23 @@ export default {
 		border: none;
 		outline: none;
 	}
+	
+	
+	.contenedorPrincipal {
+		display: grid;
+		grid-template-columns: 180px 1fr 180px;
+		grid-template-rows: 1fr;
+		grid-column-gap: 0px;
+		grid-row-gap: 0px;
+	}
 
+	.div1 { grid-area: 1 / 1 / 2 / 2; }
+	.div2 { grid-area: 1 / 2 / 2 / 3; }
+	.div3 { grid-area: 1 / 3 / 2 / 4; }
 
+	.div1, .div3{
+		text-align: center;
+	}
 	.contenedor{
 		width: 100%;
 		margin: auto;
@@ -284,6 +319,14 @@ export default {
 		.fondoTitulo{
 			height: 180px;
 		}
+		.contenedorPrincipal {
+			grid-template-columns: 1fr;
+			grid-template-rows: 260px 1fr 260px;
+		}
+
+		.div1 { grid-area: 1 / 1 / 2 / 2; }
+		.div2 { grid-area: 2 / 1 / 3 / 2; }
+		.div3 { grid-area: 3 / 1 / 4 / 2; }
 	}
 
 </style>

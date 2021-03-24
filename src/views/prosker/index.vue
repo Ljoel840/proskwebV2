@@ -7,35 +7,43 @@
 			</div>
 		<img src="@/assets/img/separador2.png" alt="separador" class="separador">
 		<barra v-if="cargandoProsker"/>
-		<div class="contenedorPrincipal" v-if="!cargandoProsker&&datos.length>0">
-			<div class="foto" :style="{ backgroundImage: 'url(' + datos[0].foto + ')' }"></div>
-			<div class="datos">
-				<h2>{{datos[0].nombre}}</h2>
-				<h3>{{datos[0].pais}}</h3>
-				<h3>Prosk: {{datos[0].prosk}}</h3>
-				<h3>Seguidores: {{datos[0].seguidores}}</h3>
-				<button class="botonMensaje" @mouseover="!usuario.ok ? mostrar=true:null" @mouseleave="mostrar=false" :class="!usuario.ok ? 'desactivado': null" @click="usuario.ok ? mostrarChat=!mostrarChat : null"> 
-					<img src="@/assets/img/i_mensaje.png" alt="icono mensaje">
-					<p>Enviar Mensaje</p>
-				</button>
+		<div class="contenedorPublicidad">
+			<div class="div1">
+				<div class="contenedorPrincipal" v-if="!cargandoProsker&&datos.length>0">
+					<div class="foto" :style="{ backgroundImage: 'url(' + datos[0].foto + ')' }"></div>
+					<div class="datos">
+						<h2>{{datos[0].nombre}}</h2>
+						<h3>{{datos[0].pais}}</h3>
+						<h3>Prosk: {{datos[0].prosk}}</h3>
+						<h3>Seguidores: {{datos[0].seguidores}}</h3>
+						<button class="botonMensaje" @mouseover="!usuario.ok ? mostrar=true:null" @mouseleave="mostrar=false" :class="!usuario.ok ? 'desactivado': null" @click="usuario.ok ? mostrarChat=!mostrarChat : null"> 
+							<img src="@/assets/img/i_mensaje.png" alt="icono mensaje">
+							<p>Enviar Mensaje</p>
+						</button>
+					</div>
+					<div class="tooltiptext" v-if="mostrar">
+						<img src="@/assets/img/i_proskquienes.png" alt="Logo Prosk">
+						<span>Necesitas estar logueado para enviar un mensaje.  Si no eres <strong>Prosker</strong> descargate la <strong>App</strong> y <strong>Registrate</strong></span>
+					</div>
+					<div class="mensajes" v-if="mostrarChat && usuario.ok">
+						<span>	<button @click="mostrarChat=false"><i class="material-icons">clear</i></button>	</span>
+							<h3>ENVIAR MENSAJE</h3>
+						
+						<p>Escribe tu Mensaje:</p>
+						<label>
+							<textarea v-model="nuevoMensaje" class="form-control" rows="3" ></textarea> 
+						</label>
+						<button class="botonAceptar" @click="enviarMensaje(nuevoMensaje)">Enviar</button>
+					</div>
+				</div>
+				<div class="contenedorPublicaciones" v-if="datos.length>0">
+					<publicacion v-for="(d,index) in datos[0].publicaciones" :key="index" :d="d"/>
+				</div>
 			</div>
-			<div class="tooltiptext" v-if="mostrar">
-				<img src="@/assets/img/i_proskquienes.png" alt="Logo Prosk">
-				<span>Necesitas estar logueado para enviar un mensaje.  Si no eres <strong>Prosker</strong> descargate la <strong>App</strong> y <strong>Registrate</strong></span>
+			<div class="div2">
+				<publicidad300x600/>
 			</div>
-			<div class="mensajes" v-if="mostrarChat && usuario.ok">
-				<span>	<button @click="mostrarChat=false"><i class="material-icons">clear</i></button>	</span>
-					<h3>ENVIAR MENSAJE</h3>
-				
-				<p>Escribe tu Mensaje:</p>
-				<label>
-					<textarea v-model="nuevoMensaje" class="form-control" rows="3" ></textarea> 
-				</label>
-				<button class="botonAceptar" @click="enviarMensaje(nuevoMensaje)">Enviar</button>
-			</div>
-		</div>
-		<div class="contenedorPublicaciones" v-if="datos.length>0">
-			<publicacion v-for="(d,index) in datos[0].publicaciones" :key="index" :d="d"/>
+
 		</div>
 		<div id="snackbar">{{mensajeEnvio}}</div>
 	</section>
@@ -58,6 +66,8 @@ export default {
 		publicacion: () => import('@/components/publicaciones/publicacion'),
 		// salaChat: () => import('@/components/chat/salaChat'),
 		// chat: () => import('@/components/chat'),
+		publicidad300x600: () => import('@/components/adsense/publicidad300x600'),
+
 	},
 	data() {
 		return {
@@ -222,6 +232,16 @@ export default {
 		padding: 2em 0;
 		
 	}
+	.contenedorPublicidad {
+		display: grid;
+		grid-template-columns: 1fr 310px;
+		grid-template-rows: 1fr;
+		grid-column-gap: 0px;
+		grid-row-gap: 0px;
+	}
+
+	.div1 { grid-area: 1 / 1 / 2 / 2; }
+	.div2 { grid-area: 1 / 2 / 2 / 3; }
 	.contenedorPrincipal{
 		width: 100%;
 		margin: auto;
@@ -411,7 +431,12 @@ export default {
 		.datos h3{
 			font-size: 1em;
 		}
-
+		.contenedorPublicidad {
+			grid-template-columns: 1fr;
+			grid-template-rows: 1fr 610px;
+		}
+		.div1 { grid-area: 1 / 1 / 2 / 2; }
+		.div2 { grid-area: 2 / 1 / 3 / 2; }
 	}
 	@media (max-width: 850px) {
 		.tooltiptext{
