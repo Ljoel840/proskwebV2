@@ -10,7 +10,7 @@ const routes = [
 		component: () => import('../views/Home')
 	},
 	{
-		path: '/prosker',
+		path: '/prosker/:proskerName',
 		name: 'Prosker',
 		component: () => import('../views/prosker'),
 		props: true

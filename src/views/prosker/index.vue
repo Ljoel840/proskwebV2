@@ -7,8 +7,8 @@
 			</div>
 		<img src="@/assets/img/separador2.png" alt="separador" class="separador">
 		<barra v-if="cargandoProsker"/>
-		<div class="contenedorPublicidad">
-			<div class="div1">
+		<!-- <div class="contenedorPublicidad">
+			<div class="div1"> -->
 				<div class="contenedorPrincipal" v-if="!cargandoProsker&&datos.length>0">
 					<div class="foto" :style="{ backgroundImage: 'url(' + datos[0].foto + ')' }"></div>
 					<div class="datos">
@@ -38,11 +38,11 @@
 				</div>
 				<div class="contenedorPublicaciones" v-if="datos.length>0">
 					<publicacion v-for="(d,index) in datos[0].publicaciones" :key="index" :d="d"/>
-				</div>
-			</div>
-			<div class="div2">
+				<!-- </div>
+			</div> -->
+			<!-- <div class="div2">
 				<publicidad300x600/>
-			</div>
+			</div> -->
 
 		</div>
 		<div id="snackbar">{{mensajeEnvio}}</div>
@@ -80,8 +80,23 @@ export default {
 			mensajeEnvio: '',
 			errorEnvio: null,
 			enviandoMensaje: false,
-			dataUsuario: ''
+			dataUsuario: '',
+			nameUrl: this.$route.params.proskerName,
 		}
+	},
+	created() {
+		this.dataUsuario = this.data
+		
+		if (!this.data) {
+			this.nameUrl = this.quitarGuiones(this.nameUrl)
+			this.proskers.datos.forEach(element => {
+				if (element.nombre.toLowerCase().includes(this.nameUrl)){
+					this.dataUsuario=element.idEnc
+				}
+			});
+		}
+		this.extraerDatos()
+		window.scrollTo(0,0)
 	},
 	computed: {
 		usuario () {
@@ -90,12 +105,10 @@ export default {
 		ahora () {
 			return this.$store.state.ahora
 		},
+		proskers(){
+			return this.$store.state.proskers
+		},
 		
-	},
-	created() {
-		this.dataUsuario = this.data
-		this.extraerDatos()
-		window.scrollTo(0,0)
 	},
 	methods: {
 		snack() {
@@ -183,7 +196,10 @@ export default {
 				this.extraerDatos()
 			}
 		},
-	
+		quitarGuiones(nombre){
+			return nombre.replace(/-/g, " ").toLowerCase()
+		},
+
 		
 	},
 

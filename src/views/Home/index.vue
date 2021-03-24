@@ -10,45 +10,29 @@
 					<buscar @opcion="seleccion($event)"/>
 				</div>
 			</div>
-			<!-- <div class="izquierda" v-if="ancho>=900">
-				<mostrarProskers/>
-			</div> -->
 		</div>
 			<span class="botones">
 				<button v-for="(idx,index) in slider.length" :key="index" :style="opcion===index ? 'background-color:#fff': null" @click="opcion=index"></button>
 			</span>
 		<redesSociales/>
-		<!-- <div class="mostrarProskers" v-if="ancho<900">
-			<mostrarProskers/>
-		</div> -->
-		<publicidad728x90 v-if="ancho>730"/>
+
+		<!-- <publicidad728x90 v-if="ancho>730"/> -->
+
 		<proskerDestacados/>
 		<categorias />
-		<publicidad300x250 v-if="ancho<=730"/>
-		<!-- <div class="espacio"></div> -->
-		<div class="contenedorPublicidad">
-			<div class="pub1">
+		<!-- <publicidad300x250 v-if="ancho<=730"/> -->
+		<!-- <div class="contenedorPublicidad">
+			<div class="pub1"> -->
 				<publicaciones :datos="datosPublicaciones.datos" v-if="!datosPublicaciones.cargando"/>
 
-			</div>
+			<!-- </div>
 			<div class="pub2" v-if="ancho>550">
 				<publicidad160x600/>
 			</div>
-		</div>
-		<!-- <div class="banner2">
-			<div class="div1">
-				<div>
-					<h2>Red Social de Trabajo y Negocios</h2>
-					<h3>Prosk es una nueva plataforma de trabajo y negocios, ideal para profesionales y trabajadores independientes, donde pueden promocionarse y mostrar lo que ofrecen de manera visual con fotos y videos como las redes sociales.También es para las personas que necesitan contratar profesionales,  que los  pueden buscar por categorías, subcategorías, geolocalización y reputación.</h3>
-				</div>
-			</div>
-			<div class="div2">
-				<mostrarProskers/>
-			</div>
 		</div> -->
-		<publicidad728x90 v-if="ancho>730"/>
-		<div class="contenedorPublicidad2">
-			<div class="pub21">
+		<!-- <publicidad728x90 v-if="ancho>730"/> -->
+		<!-- <div class="contenedorPublicidad2">
+			<div class="pub21"> -->
 				<div class="banner">
 					<div>
 						<h2>Trabajas de forma independiente, querés empezar a hacerlo o trabajas en relación de dependencia y querés tener ingresos extras/ complementarios?</h2>
@@ -58,14 +42,14 @@
 					</div>
 				</div>
 
-			</div>
+			<!-- </div>
 			<div class="pub22">
 				<publicidad300x250/>	
 			</div>
 		</div>
 		<div class="contenedorPublicidad3">
 			<publicidad320x50 v-if="ancho<=550"/>
-		</div>
+		</div> -->
 	</article>
 </template>
 
@@ -177,7 +161,7 @@ export default {
 	}
 	.imagenHome{
 		width: 100%;
-		height: 380px;
+		height: 400px;
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -188,11 +172,11 @@ export default {
 	.fondo{
 		width: 100%;
 		height: 280px;
-		/* padding-top: 20px; */
+		padding-top: 20px;
 		display: flex;
 		flex-wrap: nowrap;
 		justify-content: flex-start;
-		align-items: flex-start;
+		align-items: center;
 		z-index: 1;
 		text-align: center;
 		/* background-color: red; */
@@ -217,7 +201,7 @@ export default {
 		background-repeat: no-repeat;
 		width: 100%;
 		min-height: 500px;
-		/* margin-top:-80px; Activar cuando no haya publicidad */
+		margin-top:-80px; /*Activar cuando no haya publicidad*/
 		z-index: -1;
 		display: flex;
 		justify-content: flex-end;
@@ -336,9 +320,9 @@ export default {
 		min-height: 20vh
 	}
 	.textoTitulo{
-		min-height: 100px;
+		min-height: 120px;
 		display: block;
-		padding-top: 10px;
+		/* padding-top: 10px; */
 		/* align-items: center;
 		justify-content: center;
 		min-width: 100%; */

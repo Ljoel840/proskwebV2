@@ -9,34 +9,36 @@
 		<div class="cortina" v-if="mostrarMapa" @click="mostrarMapa=false"></div>
 		<mapa :latitude="miPosicion.posicion.coords.latitude" :longitude="miPosicion.posicion.coords.longitude" :title="miPosicion.titulo" @cerrar="mostrarMapa=false" :marcadores="marcadores" v-if="mostrarMapa"/>
 		<img src="@/assets/img/separador2.png" alt="separador" class="separador">
-		<publicidad728x90/>
+		<!-- <publicidad728x90/> -->
 		<span class="subcategorias">
 			<button :class="opc===null ? 'botonActivo' : null" @click="filtrarSubcategoria(null)">TODOS</button>
 			<button v-for="(d,index) in data2.subcategoria" :key="index" :class="index == opc ? 'botonActivo' : null" @click="filtrarSubcategoria(index)">{{d.nombre}}</button>
 		</span>
-		<div class="contenedorPrincipal">
+		<!-- <div class="contenedorPrincipal">
 			<div class="div1">
 				<publicidad160x600 v-if="ancho>600"/>
 				<publicidad300x250 v-if="ancho<=600"/>
 			</div>
-		<span class="contenedor div2">
-			<span class="ubicacion" v-if="existe">
-				<button @click="mostrarMapa=true">
-					<img src="@/assets/img/i_ubicacion.png" alt="icono ubicacion">
-				</button>
-			</span>
-			<barra v-if="cargandoBusqueda" />
-			<span v-if="!existe" class="existe">No se encuentran publicaciones en esa Categoría</span>
-			<publicacion v-for="(d,index) in busqueda.datos" :key="index" :d="d"/>
-			<span class="contenedorBoton" v-if="!busqueda.cargando&&busqueda.hayMas && existe">
-				<button class="verMas" @click="cargarMas()"><i class="material-icons">expand_more</i></button>
-			</span>
-		</span>
+			<div class="div2"> -->
+				<span class="contenedor">
+					<span class="ubicacion" v-if="existe">
+						<button @click="mostrarMapa=true">
+							<img src="@/assets/img/i_ubicacion.png" alt="icono ubicacion">
+						</button>
+					</span>
+					<barra v-if="cargandoBusqueda" />
+					<span v-if="!existe" class="existe">No se encuentran publicaciones en esa Categoría</span>
+					<publicacion v-for="(d,index) in busqueda.datos" :key="index" :d="d"/>
+					<span class="contenedorBoton" v-if="!busqueda.cargando&&busqueda.hayMas && existe">
+						<button class="verMas" @click="cargarMas()"><i class="material-icons">expand_more</i></button>
+					</span>
+				</span>
+			<!-- </div>
 		<div class="div3">
 			<publicidad160x600 v-if="ancho>600"/>
 			<publicidad300x250 v-if="ancho<=600"/>
 		</div>
-		</div>
+		</div> -->
 	</section>
 </template>
 <script>

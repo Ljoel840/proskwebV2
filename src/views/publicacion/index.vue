@@ -7,8 +7,8 @@
 		</div>
 		<img src="@/assets/img/separador2.png" alt="separador" class="separador">
 		<barra v-if="cargandoProsker"/>
-		<div class="contenedorPublicidad">
-			<div class="pub1">
+		<!-- <div class="contenedorPublicidad">
+			<div class="pub1"> -->
 				<div class="contenedorPrincipal" v-if="!cargandoProsker&&datos.length>0">
 					<div class="contenedorUsuario" @click="ir('Prosker',datos[0].idEnc)">
 						<div class="foto" :style="{ backgroundImage: 'url(' + datos[0].foto + ')' }"></div>
@@ -27,11 +27,11 @@
 						</div>
 					</div>
 				</div>
-			</div>
+			<!-- </div>
 			<div class="pub2">
 				<publicidad300x250 />
 			</div>
-		</div>
+		</div> -->
 	</section>
 </template>
 <script>

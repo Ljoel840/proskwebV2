@@ -1,7 +1,7 @@
 <template>
 	<section>
-		<!-- <h1 v-if="proskersDestacados.length>0">Proskers Recomendados</h1>
-		<br> -->
+		<h1 v-if="proskersDestacados.length>0">Proskers Recomendados</h1>
+		<br>
 		<barra v-if="proskersDestacados.length==0"/>
 		<div class="contenedor" v-if="proskersDestacados.length>0">
 			<!-- <div class="contenedorUsuario" v-for="(d,index) in datos" :key="index">

@@ -5,7 +5,7 @@
 		</div>
 
 		<menupc	v-if="!datosPublicaciones.cargando && !datosCategorias.cargando" />
-		<router-view v-if="!datosPublicaciones.cargando && !datosCategorias.cargando"/>
+		<router-view v-if="!datosPublicaciones.cargando && !datosCategorias.cargando && !proskers.cargando"/>
 		<p_footer v-if="!datosPublicaciones.cargando && !datosCategorias.cargando"/>
 <!-- 
 		<menupc	 />
@@ -38,6 +38,9 @@ export default {
 		datosCategorias () {
 			return this.$store.state.categorias
 		},
+		proskers(){
+			return this.$store.state.proskers
+		}
 
 
 	},
