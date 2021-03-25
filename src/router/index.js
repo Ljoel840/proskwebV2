@@ -73,6 +73,18 @@ const routes = [
 		component: () => import('../views/registro'),
 		props: true
 	},
+	// {
+	// 	path: '/sitemap',
+	// 	name: 'Sitemap',
+	// 	component: () => import('../views/sitemap'),
+	// 	props: true
+	// },
+	{
+		path: '/noexiste',
+		name: 'No Existe',
+		component: () => import('@/views/noExiste'),
+		props: true
+	},
 	{
 		path: '/blog',
 		name: 'Blog',
@@ -91,6 +103,7 @@ const routes = [
 		component: () => import('../views/blog/categoriaBlog'),
 		props: true
 	},
+
 ]
 
 const router = new VueRouter({

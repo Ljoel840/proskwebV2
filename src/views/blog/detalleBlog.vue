@@ -39,7 +39,7 @@ export default {
 			titleBlog : this.$route.params.titleBlog,
 			titleBlog2 : this.$route.params.titleBlog,
 			data2 : {},
-
+			existe : false
 		}
 	},
 	metaInfo() {
@@ -68,11 +68,15 @@ export default {
 						contenido.forEach(element => {
 							if (element.BlogPostTitle.toLowerCase().includes(this.titleBlog)){
 								this.data2=element
+								this.existe = true
 							}
 						});
 					}).catch(error => {
 						console.log(error)
 					})
+				if (!this.existe) {
+					this.ir('No Existe')
+				}
 			}
 		}
 		catch (error){
