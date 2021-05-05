@@ -36,6 +36,13 @@
 				</span>
 			</div>
 		</div>
+		<div class="sitemap">
+			<!-- <a @click="ir('Sitemap')" class="logo hvr-pulse">
+				<img src="@/assets/img/i_sitemap.png" alt="icono sitemap">
+			</a> -->
+			<!-- <button class="botonAceptar" @click="ir('Sitemap')">Mapa del Sitio</button> -->
+			<a @click="ir('Sitemap')">Mapa del Sitio</a>
+		</div>
 		<span class="terminos">
 			<img src="@/assets/img/logowebprosk.png" alt="logo Prosk" style="height: 50px">
 			<h4>es un proyecto de </h4>
@@ -60,6 +67,14 @@ export default {
 			return process.env.VUE_APP_VERSION
 		}
     },
+	methods: {
+		ir (pag,data) {
+			this.$router.push({
+				name: pag, 
+				params: {data}
+			}).catch(() => {})
+		},
+	},
 	
 }
 </script>
@@ -79,7 +94,7 @@ export default {
 	}
 	.contenedor{
 		width: 100%;
-		padding: 4em 0;
+		padding: 3em 0 1em;
 		margin: auto;
 		display: grid;
 		grid-template-columns: repeat(2, 1fr);
@@ -136,6 +151,25 @@ export default {
 		font-size: .8em;
 		color:var(--c-color);
 		margin-top: 1em
+	}
+	.sitemap{
+		width: 100%;
+		height: auto;
+		display: flex;
+		justify-content: center;
+		flex-direction: column;
+		align-items: center;
+		padding: 1em 0;
+	}
+	.sitemap img{
+		width: 80px;
+		height: 60px;
+		cursor: pointer;
+	}
+	.sitemap a{
+		color: #ffffff;
+		text-decoration: underline;
+		cursor: pointer;
 	}
 	@media (max-width: 1200px) {
 		.contenedor {

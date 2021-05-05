@@ -47,10 +47,17 @@ export default {
 			// }
 		}
 	},
+	created() {
+		// console.log('longitud:',this.$store.state.proskersDestacados.length)
+		
+	},
 	computed: {
 		proskersDestacados(){
 			return this.$store.state.proskersDestacados
 		},
+		// longitudDestacados(){
+		// 	return this.longitudDestacados
+		// },
 		ancho(){
 			return this.$store.state.ancho
 		},
@@ -63,18 +70,19 @@ export default {
 				spaceBetween: 10,
 				freeMode: true,
 				slideToClickedSlide: true,
-				loop: true,
-				autoplay: {
-					stopOnLastSlide: true,
-					delay: 3000
-					},
+				loopFillGroupWithBlank: true,
+				// loop: false,
+				// autoplay: {
+				// 	stopOnLastSlide: true,
+				// 	delay: 3000
+				// 	},
 				navigation: {
 					nextEl: '.swiper-button-next',
 					prevEl: '.swiper-button-prev'
 				},
 			}
 		}
-	},
+	}, 
 	methods: {
 		ir (pag,data,proskerName) {
 			// e.preventDefault()

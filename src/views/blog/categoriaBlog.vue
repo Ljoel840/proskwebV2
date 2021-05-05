@@ -40,8 +40,13 @@ export default {
 		if (this.blog.datos.length<=0) {
 			this.$store.commit('cargarBlog')
 		}
-		this.opcion=this.data.BlogCategoryId
-		this.titulo=this.data.BlogCategoryName
+		if (this.data) {
+			this.opcion=this.data.BlogCategoryId
+			this.titulo=this.data.BlogCategoryName
+		}else{
+			this.opcion=this.blogCategorias.datos[0].BlogCategoryId
+			this.titulo=this.blogCategorias.datos[0].BlogCategoryName
+		}
 	},
 	computed: {
 		blog(){

@@ -142,14 +142,14 @@ export default {
 			}
 			if (mensaje) {
 				this.$store.commit('agregarMensaje',data)
-				this.$store.commit('agregarMensaje',{
-					idEnc: this.datos[0].idEnc,
-					mensaje: 'Hola, Cómo estás?',
-					nombre: this.datos[0].nombre,
-					foto: this.datos[0].foto,
-					source: 'PROSKER',
-					leido: false
-				})
+				// this.$store.commit('agregarMensaje',{
+				// 	idEnc: this.datos[0].idEnc,
+				// 	mensaje: 'Hola, Cómo estás?',
+				// 	nombre: this.datos[0].nombre,
+				// 	foto: this.datos[0].foto,
+				// 	source: 'PROSKER',
+				// 	leido: false
+				// })
 				this.$store.commit('sumarNuevoMensaje')
 			}
 			this.nuevoMensaje = ''

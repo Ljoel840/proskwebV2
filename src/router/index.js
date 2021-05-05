@@ -7,12 +7,25 @@ const routes = [
 	{
 		path: '/',
 		name: 'Home',
+		// component: () => import('../views/Home')
+		redirect: { name: 'Home2' }
+	},
+	{
+		path: '/inicio',
+		name: 'Home2',
 		component: () => import('../views/Home')
 	},
+	
 	{
 		path: '/prosker/:proskerName',
 		name: 'Prosker',
 		component: () => import('../views/prosker'),
+		props: true
+	},
+	{
+		path: '/recomendados',
+		name: 'Prosker Recomendados',
+		component: () => import('../views/mostrarDestacados'),
 		props: true
 	},
 	{
@@ -22,11 +35,23 @@ const routes = [
 		props: true
 	},
 	{
+		path: '/publicaciones',
+		name: 'Mostrar Publicaciones',
+		component: () => import('../views/mostrarPublicaciones'),
+		props: true
+	},  
+	{
 		path: '/categorias',
 		name: 'Mostrar Categorias',
 		component: () => import('../views/mostrarCategorias'),
 		props: true
 	},  
+	{
+		path: '/categoriasProsk',
+		name: 'Todas Categorias',
+		component: () => import('../views/todasCategorias'),
+		props: true
+	}, 
 	{
 		path: '/usuario',
 		name: 'Ingresar',
@@ -73,16 +98,10 @@ const routes = [
 		component: () => import('../views/registro'),
 		props: true
 	},
-	// {
-	// 	path: '/sitemap',
-	// 	name: 'Sitemap',
-	// 	component: () => import('../views/sitemap'),
-	// 	props: true
-	// },
 	{
-		path: '/noexiste',
-		name: 'No Existe',
-		component: () => import('@/views/noExiste'),
+		path: '/sitemap',
+		name: 'Sitemap',
+		component: () => import('../views/sitemap'),
 		props: true
 	},
 	{
@@ -92,22 +111,32 @@ const routes = [
 		props: true
 	},	
 	{
+		path: '/categoriaBlog',
+		name: 'Categoria Blog',
+		component: () => import('../views/blog/categoriaBlog'),
+		props: true
+	},
+	{
 		path: '/:titleBlog',
 		name: 'Detalle Blog',
 		component: () => import('../views/blog/detalleBlog'),
 		props: true
 	},
 	{
-		path: '/categoriaBlog',
-		name: 'Categoria Blog',
-		component: () => import('../views/blog/categoriaBlog'),
+		path: '/noexiste',
+		name: 'No Existe',
+		component: () => import('@/views/noExiste'),
 		props: true
 	},
 
 ]
 
 const router = new VueRouter({
-  routes
+	// mode: 'history',
+  	routes,
+	scrollBehavior (to, from, savedPosition) {
+	return { x: 0, y: 0 }
+	}
 })
 
 export default router

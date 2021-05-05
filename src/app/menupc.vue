@@ -1,7 +1,7 @@
 <template>
 	<header>
 		<span class="div1">
-			<a @click="ir('Home')">
+			<a @click="ir('Home2')">
 				<img src="@/assets/img/logowebprosk.png" alt="logo prosk" class="logo hvr-pulse" >
 			</a>
 			<button class="botonAceptar botonMenu" v-if="ancho<1000" @click="mostrarMenu=!mostrarMenu"><i class="material-icons">{{!mostrarMenu ? 'menu':'close'}}</i></button>
@@ -25,8 +25,10 @@
 			<!-- <a :href="`${urlPrincipal}/blog/#/`" class="menu">BLOG</a> -->
 			<p>|</p>
 			<a @click="ir('Contacto')" class="menu">CONTACTO</a>
+			<!-- <a @click="ir('Registro')" class="menu registro">REGISTRARSE</a> -->
 		</nav>
 		<span class="div3" v-if="mostrarMenu || ancho>1000">
+			<button class="botonAceptar" @click="ir('Registro')" v-if="!usuario.ok">Registrarme</button>
 			<button class="botonNotificaciones" v-if="usuario.ok" @click="mostrarChat=!mostrarChat"><i class="material-icons">notifications</i></button>
 			<span class="nuevaNotificacion" v-if="usuario.ok && nuevoMensaje>0">{{nuevoMensaje}}</span>
 			<button class="botonAceptar" v-if="!usuario.ok" @click="cerrarPopup=false">Login</button>
@@ -166,7 +168,7 @@ export default {
 		width: 100%;
 		height: 80px;
 		display: grid;
-		grid-template-columns: 20% 65% 15%;
+		grid-template-columns: 20% 55% 25%;
 		grid-template-rows: 1fr;
 		grid-column-gap: 0px;
 		grid-row-gap: 0px;
@@ -195,7 +197,8 @@ export default {
 	.div3{
 		width: 100%;
 		display: flex;
-		justify-content: flex-start;
+		justify-content: center;
+		flex-wrap: wrap;
 	}
 	nav .menu{
 		/* width: 120px; */
@@ -331,6 +334,10 @@ export default {
 		justify-content: center;
 		margin-top: -7px;
 		margin-left: -7px
+	}
+	.registro{
+		background-color: var(--c-color) !important
+		
 	}
 
 	@media (max-width:1000px) {

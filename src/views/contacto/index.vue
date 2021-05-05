@@ -173,7 +173,7 @@ export default {
 	.separador{
 		margin-top: -50px;
 		width: 100%;
-		height: auto;
+		height: 50px;
 		background-color: transparent;
 		border: none;
 	}

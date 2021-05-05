@@ -80,9 +80,7 @@ export default {
 			},
 		}
 	},
-	created() {
-		console.log('marcadores', this.marcadores)
-	},
+
 	methods: {
 		movePlace: function(event) {
             this.position = {

@@ -7,7 +7,7 @@
 			<h1>{{data2.nombre}}</h1>
 			</div>
 		<div class="cortina" v-if="mostrarMapa" @click="mostrarMapa=false"></div>
-		<mapa :latitude="miPosicion.posicion.coords.latitude" :longitude="miPosicion.posicion.coords.longitude" :title="miPosicion.titulo" @cerrar="mostrarMapa=false" :marcadores="marcadores" v-if="mostrarMapa"/>
+		<mapa :latitude="latitud" :longitude="longitud" :title="miPosicion.titulo" @cerrar="mostrarMapa=false" :marcadores="marcadores" v-if="mostrarMapa"/>
 		<img src="@/assets/img/separador2.png" alt="separador" class="separador">
 		<!-- <publicidad728x90/> -->
 		<span class="subcategorias">
@@ -47,7 +47,7 @@ export default {
 	name:'mostrarCategorias',
 	props:{
 		data: {
-			type: Object
+			type: Object,
 		}
 
 	},
@@ -72,14 +72,30 @@ export default {
 			mostrarMapa: false,
 			subcategoria: '',
 			existe: true,
-			data2: {}
+			data2: {},
+			latitud: null,
+			longitud: null
 		}
 	},
 	created() {
-		this.dataUsuario = this.data.idEnc
+		if (!this.data) {
+			this.dataUsuario = this.categorias.datos[0].idEnc
+			this.data2 = this.categorias.datos[0]
+
+		}else{
+			this.dataUsuario = this.data.idEnc
+			this.data2 = this.data
+		}
 		this.$store.commit('limpiarBusqueda')
 		this.extraer(this.dataUsuario,"","")
-		this.data2 = this.data
+		if (this.miPosicion.posicion) {
+			this.longitud = this.miPosicion.posicion.coords.longitude
+			this.latitud = this.miPosicion.posicion.coords.latitude
+		}else{
+			this.longitud = -56.200394
+			this.latitud = -34.826923
+		}
+		
 	},
 	computed: {
 		ancho(){
@@ -94,8 +110,11 @@ export default {
 		},
 		miPosicion(){
 			return this.$store.state.miPosicion
+		},
+		categorias(){
+			return this.$store.state.categorias
 		}
-	
+
 
 	},
 	methods: {

@@ -11,6 +11,10 @@
 		</label>
 		<button class="botonAceptar" @click="ingresar()">Aceptar</button>
 		<button class="botonCancelar" @click="cancelar()">Cancelar</button>
+		<!-- <br>
+		<span>
+			<a @click="ir('Registro')">Registrarse</a>
+		</span> -->
 		<barra v-if="enviando"/>
 		<p v-if="this.error">Error</p>
 	</aside>
@@ -51,7 +55,14 @@ export default {
 		},
 		cancelar(){
 			this.$emit('cerrar', true)
-		}
+		},
+		ir(pag,data){
+			this.$router.push({
+				name: pag, 
+				params: {data}
+			})
+			this.$emit('cerrar', true)
+		},
 	},
 }
 </script>
@@ -92,5 +103,13 @@ export default {
 		height: 30px;
 		border: none;
 		background-color: var(--d-color);
+	}
+	span{
+		width: 100%;
+	}
+	a{
+		color: var(--a-color);
+		text-decoration: underline;
+		font-size: .8em;
 	}
 </style>

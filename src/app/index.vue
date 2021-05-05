@@ -7,8 +7,8 @@
 		<menupc	v-if="!datosPublicaciones.cargando && !datosCategorias.cargando" />
 		<router-view v-if="!datosPublicaciones.cargando && !datosCategorias.cargando && !proskers.cargando"/>
 		<p_footer v-if="!datosPublicaciones.cargando && !datosCategorias.cargando"/>
-<!-- 
-		<menupc	 />
+
+		<!-- <menupc	 />
 		<router-view />
 		<p_footer /> -->
 	</div>

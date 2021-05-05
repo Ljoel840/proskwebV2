@@ -10,52 +10,65 @@
 				<h4>Complete los siguientes datos para su registro</h4>
 				<label>
 					<img src="@/assets/img/i_country.png" alt="icono País" class="iconoForm">
-					<input type="text" class="form-control " placeholder="País" autocomplete="off" v-model="datos.pais">
-				</label>
-				<label>
-					<img src="@/assets/img/i_mail.png" alt="icono email" class="iconoForm">
-					<input type="mail" class="form-control " placeholder="Correo Electrónico" autocomplete="off" v-model="datos.correo">
-				</label>
-					<p v-if="errorCorreo">{{errorCorreo}}</p>
-				<label>
-					<img src="@/assets/img/i_name.png" alt="icono Nombre" class="iconoForm">
-					<input type="text" class="form-control " placeholder="Nombre y Apellido" autocomplete="off" v-model="datos.nombre">
-				</label>
-					<p v-if="errorNombre">{{errorNombre}}</p>
-				<label>
-					<img src="@/assets/img/i_user.png" alt="icono Usuario" class="iconoForm">
-					<input type="text" class="form-control " placeholder="Usuario" autocomplete="off" v-model="datos.usuario">
-				</label>
-				<label>
-					<img src="@/assets/img/i_birth.png" alt="icono Fecha de Nacimiento" class="iconoForm">
-					<input type="date" class="form-control " placeholder="Fecha de Nacimiento" autocomplete="off" v-model="datos.fechaNacimiento">
-				</label>
-				<label>
-					<img src="@/assets/img/i_gender.png" alt="icono Genero" class="iconoForm">
-					<select type="text" class="form-control " autocomplete="off" v-model="datos.genero">
-						<option value="" hidden selected>Género</option>
-						<option value="volvo">Femenino</option>
-						<option value="saab">Masculino</option>
-						<option value="opel">Otro</option>
+					<select v-model="pais">
+						<option value="" hidden selected>País</option>
+						<option v-for="p in paises" :key="p.PaisId" :value="p.PaisId">{{p.PaisName}}</option>
 					</select>
 				</label>
+				<p v-if="errorPais">{{errorPais}}</p>
+				<label>
+					<img src="@/assets/img/i_mail.png" alt="icono email" class="iconoForm">
+					<input type="mail" class="form-control " placeholder="Correo Electrónico" autocomplete="off" v-model="correo">
+				</label>
+				<p v-if="errorCorreo">{{errorCorreo}}</p>
+				<label>
+					<img src="@/assets/img/i_name.png" alt="icono Nombre" class="iconoForm">
+					<input type="text" class="form-control " placeholder="Nombre y Apellido" autocomplete="off" v-model="nombre">
+				</label>
+				<p v-if="errorNombre">{{errorNombre}}</p>
+				<!-- <label>
+					<img src="@/assets/img/i_user.png" alt="icono Usuario" class="iconoForm">
+					<input type="text" class="form-control " placeholder="Usuario" autocomplete="off" v-model="usuario">
+				</label>
+				<p v-if="errorUsuario">{{errorUsuario}}</p>
+				<label>
+					<img src="@/assets/img/i_birth.png" alt="icono Fecha de Nacimiento" class="iconoForm">
+					<input type="date" class="form-control " placeholder="Fecha de Nacimiento" autocomplete="off" v-model="fechaNacimiento">
+				</label>
+				<p v-if="errorFecha">{{errorFecha}}</p>
+				<label>
+					<img src="@/assets/img/i_gender.png" alt="icono Genero" class="iconoForm">
+					<select type="text" class="form-control " autocomplete="off" v-model="genero">
+						<option value="" hidden selected>Género</option>
+						<option value="1">Femenino</option>
+						<option value="2">Masculino</option>
+						<option value="3">Otro</option>
+					</select>
+				</label>
+				<p v-if="errorGenero">{{errorGenero}}</p>
 				<label>
 					<img src="@/assets/img/i_phone.png" alt="icono Teléfono" class="iconoForm">
-					<input type="tel" class="form-control" placeholder="Nro. de Teléfono" autocomplete="off" v-model="datos.telefono">
+					<input type="tel" class="form-control" placeholder="Nro. de Teléfono" autocomplete="off" v-model="telefono">
 				</label>	
-					<p v-if="errorTelefono">{{errorTelefono}}</p>
+				<p v-if="errorTelefono">{{errorTelefono}}</p> -->
 				<label>
 					<img src="@/assets/img/i_contrasena.png" alt="icono Password" class="iconoForm">
-					<input type="tel" class="form-control" placeholder="Contraseña" autocomplete="off" v-model="datos.contrasena">
+					<input type="tel" class="form-control" placeholder="Contraseña" autocomplete="off" v-model="contrasena">
 				</label>
-				<label>
+				<p v-if="errorContrasena">{{errorContrasena}}</p>
+				<!-- <label>
 					<img src="@/assets/img/i_passconfirm.png" alt="icono Confirmar Password" class="iconoForm">
-					<input type="tel" class="form-control" placeholder="Confirmar Contraseña" autocomplete="off" v-model="datos.contrasenaConfirm">
-				</label>				
-				<br>
-				<div>
-					<button class="botonAceptar">Registrarse</button>					
-					<button class="botonAceptar">Volver</button>
+					<input type="tel" class="form-control" placeholder="Confirmar Contraseña" autocomplete="off" v-model="contrasenaConfirm">
+				</label>
+				<p v-if="errorContrasenaConfirm">{{errorContrasenaConfirm}}</p>				
+				<br> -->
+				<div class="terminos">
+					<input type="checkbox" v-model="confirmar">
+					<a href="https://prosk.org/web/politicas/terminos.pdf" target="_blank">Acepto Términos y Condiciones</a>
+				</div>
+				<div class="botones">
+					<button class="botonAceptar" @click="confirmar ? registrar(): null" :class="!confirmar ? 'desactivar':null">Registrarse</button>					
+					<button class="botonAceptar" @click="ir('Home2')">Volver</button>
 				</div>
 			</div>
 		</div>
@@ -64,100 +77,145 @@
 </template>
 <script>
 import valida from './validar'
-// import {transporter} from '@/components/mailer'
-let emailjs = require("emailjs-com");
+import extraerPaises from './extraerPaises'
+import enviarFormulario from './enviarRegistro'
 
 
 export default {
-	name: 'contacto',
+	name: 'Registro',
 
 	components: {
 		barra: () => import('@/components/barra'),
-		buscar: () => import('@/components/buscar')
 	},
 	data() {
 		return {
-			datos:{
-				país: '',
-				correo: '',
-				nombre: '',
-				usuario: '',
-				fechaNacimiento: '',
-				genero: '',
-				telefono: '',
-				contrasena: '',
-				contasenaConfirm: '',
-			},
+			pais: '',
+			correo: '',
+			nombre: '',
+			usuario: '',
+			fechaNacimiento: '',
+			genero: '',
+			telefono: '',
+			contrasena: '',
+			contrasenaConfirm: '',
+			errorPais: null,
 			errorNombre: null,
+			errorUsuario: null,
 			errorCorreo: null,
 			errorTelefono: null,
-			errorMensaje: null,
+			errorFecha: null,
+			errorGenero: null,
+			errorContrasena: null,
+			errorContrasenaConfirm: null,
 			mensajeEnvio: null,
 			errors: false,
-
+			paises: null,
+			enviado: false,
+			error: null,
+			envioFormulario: null,
+			confirmar: false
 		}
 	},
 	created() {
-		emailjs.init("user_pj5Hm73JqlMX245SMzc7H");
+		this.cargarPaises()
 	},
 	methods: {
 		snack() {
 			var x = document.getElementById("snackbar");
 			x.className = "show";
-			setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+		    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
 		},
-		enviar(){
+		esperar(x) { 
+			return new Promise(resolve => {
+				setTimeout(() => {
+				resolve(x);
+				}, 3000);
+			})
+		},
+		async registrar(){
 			valida(this)
 			if (!this.errors) {
-				this.enviarCorreo()
-				
-				this.limpiarDatos()
+				this.enviarRegistro()
+				console.log(this.error)
+				if (this.error) {
+					this.limpiarDatos()
+				}
+				 
 			}
 		},
 		limpiarDatos(){
-			this.datos.nombre = ''
-			this.datos.correo = ''
-			this.datos.telefono = ''
-			this.datos.mensaje = ''
+			this.pais= ''
+			this.correo= ''
+			this.nombre= ''
+			this.usuario= ''
+			this.fechaNacimiento= ''
+			this.genero= ''
+			this.telefono= ''
+			this.contrasena= ''
+			this.contrasenaConfirm= ''
+			this.error= null,
+			this.confirmar= false
 		},
 		
-		async enviarCorreo(){
+		async cargarPaises(){
 			try{
-				let msg = {
-					nombre: this.datos.nombre,
-					correo: this.datos.correo,
-					telefono: this.datos.telefono,
-					mensaje:this.datos.mensaje,
-				}
-				await emailjs.send("default_service", "template_7n5q3gb", msg)
-				this.mensajeEnvio='Gracias por Escribirnos'
-				this.snack()
+				this.paises = await extraerPaises()
 			}
 			catch(error){
-				this.mensajeEnvio='Error al enviar el formulario'
+				this.mensajeEnvio= error
 				this.snack()
 			}
-		}
-
-		// async enviarCorreo(){
-		// 	try{
-		// 		await transporter.sendMail({
-		// 			from: 'Contacto Prosk" <contactoProsk.gmail.com>', 
-		// 			to: "joellealad@gmail.com", 
-		// 			subject: `"Nuevo Mensaje de Contacto de: " ${this.datos.nombre}`, 
-		// 			replyTo: this.datos.correo,
-		// 			html: `<p><strong>"Nombre: </strong>" ${this.datos.nombre} </p>
-		// 				   <p><strong>"Correo: </strong>" ${this.datos.correo} </p>
-		// 				   <p><strong>"Teléfono: </strong>" ${this.datos.telefono} </p>
-		// 				   <p><strong>"Mensaje: </strong>" ${this.datos.mensaje} </p>
-		// 			`, 
-		// 		});
-		// 	}
-		// 	catch(error){
-		// 		this.mensajeEnvio='Error al enviar el formulario'
-		// 		this.snack()
-		// 	}
-		// }
+		},
+		async enviarRegistro(){
+			try{
+				this.envioFormulario = await enviarFormulario({
+					UserCode: this.correo,
+					PaisId: parseInt(this.pais),
+					UserName: this.nombre,
+					UserNameDisplay: this.usuario,
+					UserPhone: this.telefono,
+					UserBirthdate: this.fechaNacimiento,
+					UserSex: this.genero,
+					Password: this.contrasena
+				})
+				if (this.envioFormulario.userid!='0') {
+					this.enviado = true
+					this.confirmar= false
+					this.mensajeEnvio= 'Registro Exitoso'
+					this.snack()
+					this.ingresar()
+				}else {
+					this.mensajeEnvio= this.envioFormulario.Message
+					this.snack()
+					this.limpiarDatos()
+				}
+			}
+			catch(error){
+				this.error = error
+				console.log(this.error)
+				this.mensajeEnvio=this.error
+				this.snack()
+				this.limpiarDatos()
+			}
+		},
+		async ir(pag,data){
+			await this.esperar(10)
+			this.$router.push({
+				name: pag, 
+				params: {data}
+			}).catch(() => {})
+		},
+		async ingresar () {
+			try {
+				await this.$store.dispatch('usuario/login', {
+					email: this.correo,
+					pass: this.contrasena,
+				})
+				this.ir('Home2')
+			} catch (error) {
+				this.error = error
+			}
+		},
 
 	},
 
@@ -222,9 +280,10 @@ export default {
 	}
 
 	.formulario{
-		display: grid;
-		grid-template-columns: 1fr;
-		justify-items: center;
+		display: flex;
+		/* grid-template-columns: 1fr; */
+		justify-content: center;
+		flex-wrap: wrap;
 		background-color:var(--d-color);
 		margin: .5em auto;
 		width: 100%;
@@ -236,6 +295,7 @@ export default {
 		color: var(--c-color);
 		margin: 1em 0 ;
 		text-align: center;
+		
 	}
 
 	.formulario label{
@@ -267,7 +327,9 @@ export default {
 	}
 	select{
 		width: 84% !important;
+		border: none;
 	}
+
 
 	::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
 	color: var(--h-color);
@@ -297,6 +359,25 @@ export default {
 		padding: 5px 20px;
 		
 	} 
+	.botones{
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		flex-wrap: wrap;
+	}
+	.terminos{
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		text-align: center;
+	}
+	.desactivar{
+		background-color: var(--h-color);
+		cursor: auto;
+	}
+	.desactivar:hover{
+		background-color: var(--h-color);
+	}
 	@media (max-width: 1000px) {
 		.fondoTitulo{
 			height: 150px;
@@ -316,7 +397,7 @@ export default {
 		visibility: hidden;
 		min-width: 250px;
 		margin-left: -125px;
-		background-color: var(--b-color);
+		background-color: var(--f-color);
 		color: #fff;
 		text-align: center;
 		border-radius: 2px;
@@ -334,11 +415,22 @@ export default {
 		animation: fadein 0.5s, fadeout 0.5s 2.5s;
 	}
 
-
+	@media (max-width: 1000px) {
+		.separador{
+			margin-top: -60px;
+		}
+	}
 	@media (max-width: 600px) {
 		.formulario{
 			max-width: 300px;
+			padding: 5px;
 		}
+		.formulario label{
+			width: 80%;
+		}
+		.iconoForm{
+			padding: 5px ;
+		} 
 	}
 
 </style>

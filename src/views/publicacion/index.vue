@@ -11,9 +11,9 @@
 			<div class="pub1"> -->
 				<div class="contenedorPrincipal" v-if="!cargandoProsker&&datos.length>0">
 					<div class="contenedorUsuario" @click="ir('Prosker',datos[0].idEnc)">
-						<div class="foto" :style="{ backgroundImage: 'url(' + datos[0].foto + ')' }"></div>
+						<div class="foto" :style="{ backgroundImage: 'url(' + data.foto + ')' }"></div>
 						<div class="datos">
-							<h2>{{datos[0].nombre}}</h2>
+							<h2>{{data.nombre}}</h2>
 							<h3>{{datos[0].pais}}</h3>
 						</div>
 					</div>
@@ -66,7 +66,7 @@ export default {
                 this.error = null
                 this.cargandoProsker = true
                 this.datos=await extraer ({
-					idEnc: this.data.idEncUsuario,
+					idEnc: this.data.idEnc,
                 })
 				this.cargandoProsker = true
             }

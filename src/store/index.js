@@ -53,6 +53,7 @@ export default new Vuex.Store({
 			cargando: true
 		},
 		proskersDestacados:[],
+		longitudDestacados:[],
 		nuevoMensaje: 0,
 		conteoAnteriorMensaje:0,
 		categoriasFAQ: {
@@ -146,6 +147,7 @@ export default new Vuex.Store({
 						registroDatos.idEnc = e.idEnc
 						registroDatos.foto = e.UserPhotoImageUrl
 						state.proskersDestacados.push(registroDatos)
+						state.longitudDestacados++
 					}
 				})
 			}).catch(error => {
@@ -216,7 +218,6 @@ export default new Vuex.Store({
 		},
 		agregarMensaje(state, datos){
 			state.mensajes.datos.push(datos)
-			console.log(state.mensajes)
 		},
 		sumarNuevoMensaje(state){
 			state.nuevoMensaje++

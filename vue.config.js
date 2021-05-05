@@ -47,7 +47,7 @@ const back = {
 const prod = {
 	// apiUrl: "http://158.85.5.171:8080/proskbackend/rest/",
 	// apiContactUrl: "http://158.85.5.171:8080/proskbackend/rest/",
-	apiUrl: "https://proskapp.com/proskbackend/rest/",
+	apiUrl: "https://prosk-prod.bigcheese.uy/proskbackend/rest/",
     apiContactUrl: "https://apps.delfasoft.com/delfawebs/rest/",
     routerMode: false,
 	publicPath: "/",

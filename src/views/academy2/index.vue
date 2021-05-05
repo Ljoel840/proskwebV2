@@ -48,7 +48,7 @@ export default {
 		}
 	},
 	created() {
-		window.scrollTo(0, 0)
+		// window.scrollTo(0, 0)
 		if (this.academy.cargando){
 			this.$store.commit('cargarVideosAcademy')
 		}

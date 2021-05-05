@@ -1,6 +1,6 @@
 {
   "name": "prosk-web",
-  "version": "1.0.20",
+  "version": "1.0.33",
   "env": "prod",
   "private": true,
   "scripts": {
